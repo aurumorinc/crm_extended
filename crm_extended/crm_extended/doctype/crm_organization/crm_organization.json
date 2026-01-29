@@ -16,6 +16,7 @@
   "status",
   "column_break_pnpp",
   "website",
+  "links",
   "territory",
   "industry",
   "address"
@@ -31,6 +32,12 @@
    "fieldname": "website",
    "fieldtype": "Data",
    "label": "Website"
+  },
+  {
+   "fieldname": "links",
+   "fieldtype": "Table",
+   "label": "Links",
+   "options": "CRM External Link"
   },
   {
    "fieldname": "organization_logo",
