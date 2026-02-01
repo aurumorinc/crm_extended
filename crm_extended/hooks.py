@@ -1,5 +1,5 @@
 app_name = "crm_extended"
-app_title = "Crm Extended"
+app_title = "CRM Extended"
 app_publisher = "Aurumor"
 app_description = "CRM Extended"
 app_email = "aryan.singh@aurumor.com"
@@ -15,7 +15,7 @@ app_license = "mit"
 # 	{
 # 		"name": "crm_extended",
 # 		"logo": "/assets/crm_extended/logo.png",
-# 		"title": "Crm Extended",
+# 		"title": "CRM Extended",
 # 		"route": "/crm_extended",
 # 		"has_permission": "crm_extended.api.permission.has_app_permission"
 # 	}
