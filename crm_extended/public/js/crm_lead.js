@@ -9,11 +9,13 @@ frappe.ui.form.on("CRM Lead", {
 		let total = 0;
 		let total_qty = 0;
 		let net_total = 0;
-		frm.doc.products.forEach((d) => {
-			total += d.amount;
-			total_qty += d.qty;
-			net_total += d.net_amount;
-		});
+		if (frm.doc.products) {
+			frm.doc.products.forEach((d) => {
+				total += d.amount;
+				total_qty += d.qty;
+				net_total += d.net_amount;
+			});
+		}
 
 		frappe.model.set_value(frm.doctype, frm.docname, "total", total);
 		frappe.model.set_value(
@@ -34,7 +36,9 @@ frappe.ui.form.on("CRM Products", {
 	},
 	product_code: function (frm, cdt, cdn) {
 		let d = frappe.get_doc(cdt, cdn);
-		frappe.model.set_value(cdt, cdn, "product_name", d.product_code);
+		if (d.product_code) {
+			frappe.model.set_value(cdt, cdn, "product_name", d.product_code);
+		}
 	},
 	rate: function (frm, cdt, cdn) {
 		let d = frappe.get_doc(cdt, cdn);
@@ -53,7 +57,7 @@ frappe.ui.form.on("CRM Products", {
 	discount_percentage: function (frm, cdt, cdn) {
 		let d = frappe.get_doc(cdt, cdn);
 		if (d.discount_percentage && d.amount) {
-			discount_amount = (d.discount_percentage / 100) * d.amount;
+			let discount_amount = (d.discount_percentage / 100) * d.amount;
 			frappe.model.set_value(
 				cdt,
 				cdn,

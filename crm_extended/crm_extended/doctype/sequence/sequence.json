@@ -47,11 +47,11 @@
  "index_web_pages_for_search": 1,
  "links": [],
  "modified": "2025-12-06 05:55:19.649609",
- "modified_by": "aryan.singh@aurumor.com",
+ "modified_by": "hello@aurumor.com",
  "module": "CRM Extended",
  "name": "Sequence",
  "naming_rule": "By fieldname",
- "owner": "aryan.singh@aurumor.com",
+ "owner": "hello@aurumor.com",
  "permissions": [
   {
    "create": 1,

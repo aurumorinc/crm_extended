@@ -87,11 +87,11 @@
  "index_web_pages_for_search": 1,
  "links": [],
  "modified": "2026-01-06 00:37:26.265318",
- "modified_by": "aryan.singh@aurumor.com",
+ "modified_by": "hello@aurumor.com",
  "module": "CRM Extended",
  "name": "Enrollment",
  "naming_rule": "Random",
- "owner": "aryan.singh@aurumor.com",
+ "owner": "hello@aurumor.com",
  "permissions": [
   {
    "create": 1,
