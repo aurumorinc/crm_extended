@@ -77,10 +77,12 @@ doctype_js = {"CRM Lead": "public/js/crm_lead.js"}
 # ----------
 
 # add methods and filters to jinja environment
-# jinja = {
-# 	"methods": "crm_extended.utils.jinja_methods",
-# 	"filters": "crm_extended.utils.jinja_filters"
-# }
+jinja = {
+	"methods": [
+		"crm_extended.crm_extended.utils.jinja.get_sequence_message",
+		"crm_extended.crm_extended.utils.jinja.get_lead_link"
+	]
+}
 
 # Installation
 # ------------
@@ -253,4 +255,3 @@ doctype_js = {"CRM Lead": "public/js/crm_lead.js"}
 fixtures = [
 	{"dt": "Custom Field", "filters": [["module", "=", "CRM Extended"]]}
 ]
-

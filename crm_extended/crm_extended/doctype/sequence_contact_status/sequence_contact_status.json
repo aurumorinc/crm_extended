@@ -1,0 +1,17 @@
+{
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "fields": [
+  {
+   "fieldname": "status",
+   "fieldtype": "Data",
+   "label": "Status",
+   "unique": 1
+  }
+ ],
+ "autoname": "field:status",
+ "module": "CRM Extended",
+ "name": "Sequence Contact Status",
+ "owner": "Administrator",
+ "custom": 1
+}

@@ -1,7 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "field:id",
+ "autoname": "format:SEQ-{YYYY}-{#####}",
  "creation": "2025-08-26 08:34:44.902843",
  "custom": 1,
  "doctype": "DocType",
@@ -11,7 +11,9 @@
   "sequence_name",
   "id",
   "steps_section",
-  "steps"
+  "steps",
+  "integration_tab",
+  "apollo_ref_code"
  ],
  "fields": [
   {
@@ -40,7 +42,17 @@
    "fieldname": "steps",
    "fieldtype": "Table",
    "label": "Steps",
-   "options": "Enrollment Step"
+   "options": "Sequence Step"
+  },
+  {
+   "fieldname": "integration_tab",
+   "fieldtype": "Tab Break",
+   "label": "Integration"
+  },
+  {
+   "fieldname": "apollo_ref_code",
+   "fieldtype": "Data",
+   "label": "Apollo Ref Code"
   }
  ],
  "grid_page_length": 50,
@@ -50,7 +62,7 @@
  "modified_by": "hello@aurumor.com",
  "module": "CRM Extended",
  "name": "Sequence",
- "naming_rule": "By fieldname",
+ "naming_rule": "Expression",
  "owner": "hello@aurumor.com",
  "permissions": [
   {

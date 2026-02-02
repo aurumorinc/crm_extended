@@ -1,0 +1,53 @@
+{
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "autoname": "hash",
+ "fields": [
+  {
+   "fieldname": "sequence_contact",
+   "fieldtype": "Link",
+   "label": "Sequence Contact",
+   "options": "Sequence Contact",
+   "reqd": 1
+  },
+  {
+   "fieldname": "reference_name",
+   "fieldtype": "Link",
+   "label": "Reference Name",
+   "options": "CRM Lead",
+   "read_only": 1
+  },
+  {
+   "fieldname": "step",
+   "fieldtype": "Data",
+   "label": "Step",
+   "reqd": 1
+  },
+  {
+   "fieldname": "test",
+   "fieldtype": "Data",
+   "label": "Test",
+   "reqd": 1
+  },
+  {
+   "fieldname": "subject",
+   "fieldtype": "Data",
+   "label": "Subject"
+  },
+  {
+   "fieldname": "message",
+   "fieldtype": "Text Editor",
+   "label": "Message"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Link",
+   "label": "Status",
+   "options": "CRM Communication Status"
+  }
+ ],
+ "module": "CRM Extended",
+ "name": "Sequence Email",
+ "owner": "Administrator",
+ "custom": 1
+}

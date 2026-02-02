@@ -1,34 +1,213 @@
 [
  {
   "dt": "CRM Lead",
-  "fieldname": "links",
-  "fieldtype": "Table",
+  "fieldname": "social_media_tab",
+  "fieldtype": "Tab Break",
   "insert_after": "website",
-  "label": "Links",
+  "label": "Social Media",
   "module": "CRM Extended",
-  "name": "CRM Lead-links",
-  "options": "CRM External Link",
+  "name": "CRM Lead-social_media_tab",
+  "doctype": "Custom Field"
+ },
+ {
+  "dt": "CRM Lead",
+  "fieldname": "instagram",
+  "fieldtype": "Data",
+  "insert_after": "social_media_tab",
+  "label": "Instagram",
+  "module": "CRM Extended",
+  "name": "CRM Lead-instagram",
+  "doctype": "Custom Field"
+ },
+ {
+  "dt": "CRM Lead",
+  "fieldname": "facebook",
+  "fieldtype": "Data",
+  "insert_after": "instagram",
+  "label": "Facebook",
+  "module": "CRM Extended",
+  "name": "CRM Lead-facebook",
+  "doctype": "Custom Field"
+ },
+ {
+  "dt": "CRM Lead",
+  "fieldname": "linkedin",
+  "fieldtype": "Data",
+  "insert_after": "facebook",
+  "label": "LinkedIn",
+  "module": "CRM Extended",
+  "name": "CRM Lead-linkedin",
+  "doctype": "Custom Field"
+ },
+ {
+  "dt": "CRM Lead",
+  "fieldname": "x",
+  "fieldtype": "Data",
+  "insert_after": "linkedin",
+  "label": "X",
+  "module": "CRM Extended",
+  "name": "CRM Lead-x",
+  "doctype": "Custom Field"
+ },
+ {
+  "dt": "CRM Lead",
+  "fieldname": "youtube",
+  "fieldtype": "Data",
+  "insert_after": "x",
+  "label": "YouTube",
+  "module": "CRM Extended",
+  "name": "CRM Lead-youtube",
   "doctype": "Custom Field"
  },
  {
   "dt": "CRM Lead",
   "fieldname": "engagement_rate",
   "fieldtype": "Data",
-  "insert_after": "status",
+  "insert_after": "youtube",
   "label": "Engagement Rate",
   "module": "CRM Extended",
   "name": "CRM Lead-engagement_rate",
   "doctype": "Custom Field"
  },
  {
-  "dt": "CRM Organization",
-  "fieldname": "links",
-  "fieldtype": "Table",
-  "insert_after": "website",
-  "label": "Links",
+  "dt": "CRM Lead",
+  "fieldname": "integrations_tab",
+  "fieldtype": "Tab Break",
+  "insert_after": "engagement_rate",
+  "label": "Integrations",
   "module": "CRM Extended",
-  "name": "CRM Organization-links",
-  "options": "CRM External Link",
+  "name": "CRM Lead-integrations_tab",
+  "doctype": "Custom Field"
+ },
+ {
+  "dt": "CRM Lead",
+  "fieldname": "apollo_ref_code",
+  "fieldtype": "Data",
+  "insert_after": "integrations_tab",
+  "label": "Apollo Ref Code",
+  "module": "CRM Extended",
+  "name": "CRM Lead-apollo_ref_code",
+  "doctype": "Custom Field"
+ },
+ {
+  "dt": "CRM Organization",
+  "fieldname": "social_media_tab",
+  "fieldtype": "Tab Break",
+  "insert_after": "website",
+  "label": "Social Media",
+  "module": "CRM Extended",
+  "name": "CRM Organization-social_media_tab",
+  "doctype": "Custom Field"
+ },
+ {
+  "dt": "CRM Organization",
+  "fieldname": "instagram",
+  "fieldtype": "Data",
+  "insert_after": "social_media_tab",
+  "label": "Instagram",
+  "module": "CRM Extended",
+  "name": "CRM Organization-instagram",
+  "doctype": "Custom Field"
+ },
+ {
+  "dt": "CRM Organization",
+  "fieldname": "facebook",
+  "fieldtype": "Data",
+  "insert_after": "instagram",
+  "label": "Facebook",
+  "module": "CRM Extended",
+  "name": "CRM Organization-facebook",
+  "doctype": "Custom Field"
+ },
+ {
+  "dt": "CRM Organization",
+  "fieldname": "linkedin",
+  "fieldtype": "Data",
+  "insert_after": "facebook",
+  "label": "LinkedIn",
+  "module": "CRM Extended",
+  "name": "CRM Organization-linkedin",
+  "doctype": "Custom Field"
+ },
+ {
+  "dt": "CRM Organization",
+  "fieldname": "x",
+  "fieldtype": "Data",
+  "insert_after": "linkedin",
+  "label": "X",
+  "module": "CRM Extended",
+  "name": "CRM Organization-x",
+  "doctype": "Custom Field"
+ },
+ {
+  "dt": "CRM Organization",
+  "fieldname": "youtube",
+  "fieldtype": "Data",
+  "insert_after": "x",
+  "label": "YouTube",
+  "module": "CRM Extended",
+  "name": "CRM Organization-youtube",
+  "doctype": "Custom Field"
+ },
+ {
+  "dt": "CRM Organization",
+  "fieldname": "integrations_tab",
+  "fieldtype": "Tab Break",
+  "insert_after": "youtube",
+  "label": "Integrations",
+  "module": "CRM Extended",
+  "name": "CRM Organization-integrations_tab",
+  "doctype": "Custom Field"
+ },
+ {
+  "dt": "CRM Organization",
+  "fieldname": "apollo_ref_code",
+  "fieldtype": "Data",
+  "insert_after": "integrations_tab",
+  "label": "Apollo Ref Code",
+  "module": "CRM Extended",
+  "name": "CRM Organization-apollo_ref_code",
+  "doctype": "Custom Field"
+ },
+ {
+  "dt": "CRM Lead",
+  "fieldname": "lead_links",
+  "fieldtype": "Table",
+  "insert_after": "apollo_ref_code",
+  "label": "Personalized Links",
+  "module": "CRM Extended",
+  "name": "CRM Lead-lead_links",
+  "options": "CRM Lead Link",
+  "doctype": "Custom Field"
+ },
+ {
+  "dt": "Email Template",
+  "fieldname": "prompt_section",
+  "fieldtype": "Section Break",
+  "insert_after": "response",
+  "label": "Prompt",
+  "module": "CRM Extended",
+  "name": "Email Template-prompt_section",
+  "doctype": "Custom Field"
+ },
+ {
+  "dt": "Email Template",
+  "fieldname": "user_prompt",
+  "fieldtype": "Text Editor",
+  "insert_after": "prompt_section",
+  "label": "User Prompt",
+  "module": "CRM Extended",
+  "name": "Email Template-user_prompt",
+  "doctype": "Custom Field"
+ },
+ {
+  "dt": "Email Template",
+  "fieldname": "system_prompt",
+  "fieldtype": "Text Editor",
+  "insert_after": "user_prompt",
+  "label": "System Prompt",
+  "module": "CRM Extended",
+  "name": "Email Template-system_prompt",
   "doctype": "Custom Field"
  }
 ]
