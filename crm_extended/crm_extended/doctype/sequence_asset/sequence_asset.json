@@ -35,7 +35,7 @@
  "links": [],
  "module": "CRM Extended",
  "name": "Sequence Asset",
- "owner": "Administrator",
+ "owner": "hello@aurumor.com",
  "permissions": [
   {
    "create": 1,

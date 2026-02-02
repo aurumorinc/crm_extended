@@ -63,7 +63,7 @@
  "links": [],
  "module": "CRM Extended",
  "name": "Sequence Email",
- "owner": "Administrator",
+ "owner": "hello@aurumor.com",
  "permissions": [
   {
    "create": 1,

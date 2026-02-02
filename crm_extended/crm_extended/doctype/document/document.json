@@ -29,7 +29,7 @@
  "links": [],
  "module": "CRM Extended",
  "name": "Document",
- "owner": "Administrator",
+ "owner": "hello@aurumor.com",
  "permissions": [
   {
    "create": 1,

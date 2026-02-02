@@ -49,7 +49,7 @@
  "links": [],
  "module": "CRM Extended",
  "name": "Sequence Contact",
- "owner": "Administrator",
+ "owner": "hello@aurumor.com",
  "permissions": [
   {
    "create": 1,

@@ -22,7 +22,7 @@
  "links": [],
  "module": "CRM Extended",
  "name": "Sequence Contact Status",
- "owner": "Administrator",
+ "owner": "hello@aurumor.com",
  "permissions": [
   {
    "create": 1,
