@@ -1,0 +1,34 @@
+[
+ {
+  "dt": "CRM Lead",
+  "fieldname": "links",
+  "fieldtype": "Table",
+  "insert_after": "website",
+  "label": "Links",
+  "module": "CRM Extended",
+  "name": "CRM Lead-links",
+  "options": "CRM External Link",
+  "doctype": "Custom Field"
+ },
+ {
+  "dt": "CRM Lead",
+  "fieldname": "engagement_rate",
+  "fieldtype": "Data",
+  "insert_after": "status",
+  "label": "Engagement Rate",
+  "module": "CRM Extended",
+  "name": "CRM Lead-engagement_rate",
+  "doctype": "Custom Field"
+ },
+ {
+  "dt": "CRM Organization",
+  "fieldname": "links",
+  "fieldtype": "Table",
+  "insert_after": "website",
+  "label": "Links",
+  "module": "CRM Extended",
+  "name": "CRM Organization-links",
+  "options": "CRM External Link",
+  "doctype": "Custom Field"
+ }
+]

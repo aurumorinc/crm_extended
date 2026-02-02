@@ -250,48 +250,7 @@ doctype_js = {"CRM Lead": "public/js/crm_lead.js"}
 # List of apps whose translatable strings should be excluded from this app's translations.
 # ignore_translatable_strings_from = []
 
-custom_fields = {
-	"CRM Lead": [
-		{
-			"fieldname": "links",
-			"label": "Links",
-			"fieldtype": "Table",
-			"options": "CRM External Link",
-			"insert_after": "website"
-		},
-		{
-			"fieldname": "syncing_tab",
-			"fieldtype": "Tab Break",
-			"label": "Syncing"
-		},
-		{
-			"fieldname": "facebook_lead_id",
-			"label": "Facebook Lead ID",
-			"fieldtype": "Data",
-			"unique": 1,
-			"insert_after": "syncing_tab"
-		},
-		{
-			"fieldname": "facebook_form_id",
-			"label": "Facebook Form ID",
-			"fieldtype": "Data",
-			"insert_after": "facebook_lead_id"
-		},
-		{
-			"fieldname": "engagement_rate",
-			"label": "Engagement Rate",
-			"fieldtype": "Data",
-			"insert_after": "status"
-		}
-	],
-	"CRM Organization": [
-		{
-			"fieldname": "links",
-			"label": "Links",
-			"fieldtype": "Table",
-			"options": "CRM External Link",
-			"insert_after": "website"
-		}
-	]
-}
+fixtures = [
+	{"dt": "Custom Field", "filters": [["module", "=", "CRM Extended"]]}
+]
 
