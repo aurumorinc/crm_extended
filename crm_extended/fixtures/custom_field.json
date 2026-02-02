@@ -73,7 +73,7 @@
   "dt": "CRM Lead",
   "fieldname": "integrations_tab",
   "fieldtype": "Tab Break",
-  "insert_after": "engagement_rate",
+  "insert_after": "facebook_form_id",
   "label": "Integrations",
   "module": "CRM Extended",
   "name": "CRM Lead-integrations_tab",
@@ -87,6 +87,17 @@
   "label": "Apollo Ref Code",
   "module": "CRM Extended",
   "name": "CRM Lead-apollo_ref_code",
+  "doctype": "Custom Field"
+ },
+ {
+  "dt": "CRM Lead",
+  "fieldname": "lead_links",
+  "fieldtype": "Table",
+  "insert_after": "apollo_ref_code",
+  "label": "Links",
+  "module": "CRM Extended",
+  "name": "CRM Lead-lead_links",
+  "options": "CRM Lead Link",
   "doctype": "Custom Field"
  },
  {
@@ -167,17 +178,6 @@
   "label": "Apollo Ref Code",
   "module": "CRM Extended",
   "name": "CRM Organization-apollo_ref_code",
-  "doctype": "Custom Field"
- },
- {
-  "dt": "CRM Lead",
-  "fieldname": "lead_links",
-  "fieldtype": "Table",
-  "insert_after": "apollo_ref_code",
-  "label": "Personalized Links",
-  "module": "CRM Extended",
-  "name": "CRM Lead-lead_links",
-  "options": "CRM Lead Link",
   "doctype": "Custom Field"
  },
  {
