@@ -1,7 +1,15 @@
 {
+ "custom": 1,
  "doctype": "DocType",
  "engine": "InnoDB",
- "istable": 1,
+ "field_order": [
+  "step",
+  "test",
+  "type",
+  "day_offset",
+  "email_template",
+  "reply_to_previous"
+ ],
  "fields": [
   {
    "fieldname": "step",
@@ -38,8 +46,8 @@
    "label": "Reply to Previous"
   }
  ],
+ "istable": 1,
  "module": "CRM Extended",
  "name": "Sequence Step",
- "owner": "Administrator",
- "custom": 0
+ "owner": "Administrator"
 }

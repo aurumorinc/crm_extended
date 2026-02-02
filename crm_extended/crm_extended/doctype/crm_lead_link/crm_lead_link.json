@@ -1,7 +1,13 @@
 {
+ "custom": 1,
  "doctype": "DocType",
  "engine": "InnoDB",
- "istable": 1,
+ "field_order": [
+  "title",
+  "reference_doctype",
+  "reference_name",
+  "url"
+ ],
  "fields": [
   {
    "fieldname": "title",
@@ -28,8 +34,8 @@
    "reqd": 1
   }
  ],
+ "istable": 1,
  "module": "CRM Extended",
  "name": "CRM Lead Link",
- "owner": "Administrator",
- "custom": 0
+ "owner": "Administrator"
 }
