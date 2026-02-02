@@ -14,7 +14,7 @@ def get_sequence_message(lead_name, sequence_name, step, test):
     if not seq_contact:
         return ""
 
-    # 2. Fetch the content linked to this enrollment and step
+    # 2. Fetch the content linked to this sequence contact and step
     content = frappe.db.get_value("Sequence Email",
         {"sequence_contact": seq_contact, "step": step, "test": test},
         "message"

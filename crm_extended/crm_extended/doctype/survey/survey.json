@@ -20,24 +20,10 @@
    "label": "Survey Name"
   },
   {
-   "fieldname": "id",
+   "fieldname": "formbricks_ref_code",
    "fieldtype": "Data",
-   "label": "ID",
+   "label": "Frombricks Ref Code",
    "unique": 1
-  },
-  {
-   "fieldname": "column_break_epxl",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "environment_id",
-   "fieldtype": "Data",
-   "label": "Environment ID"
-  },
-  {
-   "fieldname": "project_id",
-   "fieldtype": "Data",
-   "label": "Project ID"
   }
  ],
  "grid_page_length": 50,

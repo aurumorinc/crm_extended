@@ -183,7 +183,7 @@
  {
   "dt": "Email Template",
   "fieldname": "prompt_section",
-  "fieldtype": "Section Break",
+  "fieldtype": "Tab Break",
   "insert_after": "response",
   "label": "Prompt",
   "module": "CRM Extended",
