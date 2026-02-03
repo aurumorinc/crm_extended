@@ -253,5 +253,6 @@ jinja = {
 # ignore_translatable_strings_from = []
 
 fixtures = [
-	{"dt": "Custom Field", "filters": [["module", "=", "CRM Extended"]]}
+	{"dt": "Custom Field", "filters": [["module", "=", "CRM Extended"]]},
+	{"dt": "Property Setter", "filters": [["module", "=", "CRM Extended"]]}
 ]

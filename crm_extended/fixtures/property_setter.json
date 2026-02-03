@@ -1,0 +1,22 @@
+[
+ {
+  "doctype_or_field": "DocField",
+  "doc_type": "CRM Lead",
+  "field_name": "organization",
+  "property": "fieldtype",
+  "value": "Link",
+  "module": "CRM Extended",
+  "name": "CRM Lead-organization-fieldtype",
+  "doctype": "Property Setter"
+ },
+ {
+  "doctype_or_field": "DocField",
+  "doc_type": "CRM Lead",
+  "field_name": "organization",
+  "property": "options",
+  "value": "CRM Organization",
+  "module": "CRM Extended",
+  "name": "CRM Lead-organization-options",
+  "doctype": "Property Setter"
+ }
+]
