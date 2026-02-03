@@ -103,7 +103,7 @@
  {
   "dt": "CRM Lead",
   "fieldname": "address",
-  "fieldtype": "Small Text",
+  "fieldtype": "Data",
   "insert_after": "industry",
   "label": "Address",
   "module": "CRM Extended",
