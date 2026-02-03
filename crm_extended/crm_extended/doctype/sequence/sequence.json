@@ -9,7 +9,8 @@
  "field_order": [
   "overview_section",
   "sequence_name",
-  "id",
+  "status",
+  "owner",
   "steps_section",
   "steps",
   "integration_tab",
@@ -25,13 +26,20 @@
    "fieldname": "sequence_name",
    "fieldtype": "Data",
    "label": "Sequence Name",
+   "reqd": 1,
    "unique": 1
   },
   {
-   "fieldname": "id",
-   "fieldtype": "Data",
-   "label": "ID",
-   "unique": 1
+   "fieldname": "status",
+   "fieldtype": "Link",
+   "label": "Status",
+   "options": "Sequence Status"
+  },
+  {
+   "fieldname": "owner",
+   "fieldtype": "Link",
+   "label": "Owner",
+   "options": "User"
   },
   {
    "fieldname": "steps_section",
