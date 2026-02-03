@@ -3,7 +3,7 @@
   "dt": "CRM Lead",
   "fieldname": "social_media_tab",
   "fieldtype": "Tab Break",
-  "insert_after": "website",
+  "insert_after": "lead_owner",
   "label": "Social Media",
   "module": "CRM Extended",
   "name": "CRM Lead-social_media_tab",
@@ -101,6 +101,16 @@
   "doctype": "Custom Field"
  },
  {
+  "dt": "CRM Lead",
+  "fieldname": "address",
+  "fieldtype": "Small Text",
+  "insert_after": "industry",
+  "label": "Address",
+  "module": "CRM Extended",
+  "name": "CRM Lead-address",
+  "doctype": "Custom Field"
+ },
+ {
   "dt": "CRM Organization",
   "fieldname": "social_media_tab",
   "fieldtype": "Tab Break",
@@ -164,7 +174,7 @@
   "dt": "CRM Organization",
   "fieldname": "integrations_tab",
   "fieldtype": "Tab Break",
-  "insert_after": "youtube",
+  "insert_after": "industry",
   "label": "Integrations",
   "module": "CRM Extended",
   "name": "CRM Organization-integrations_tab",
