@@ -130,6 +130,16 @@
   "name": "CRM Organization-founded",
   "doctype": "Custom Field"
  },
+{
+  "dt": "CRM Organization",
+  "fieldname": "location",
+  "fieldtype": "Data",
+  "insert_after": "address",
+  "label": "Location",
+  "module": "CRM Extended",
+  "name": "CRM Organization-location",
+  "doctype": "Custom Field"
+ },
  {
   "dt": "CRM Organization",
   "fieldname": "description",
