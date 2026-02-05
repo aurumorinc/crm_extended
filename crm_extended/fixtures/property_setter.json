@@ -28,5 +28,15 @@
   "module": "CRM Extended",
   "name": "CRM Organization-no_of_employees-options",
   "doctype": "Property Setter"
+ },
+ {
+  "doctype_or_field": "DocField",
+  "doc_type": "CRM Organization",
+  "field_name": "address",
+  "property": "insert_after",
+  "value": "website",
+  "module": "CRM Extended",
+  "name": "CRM Organization-address-insert_after",
+  "doctype": "Property Setter"
  }
 ]

@@ -133,8 +133,8 @@
  {
   "dt": "CRM Organization",
   "fieldname": "description",
-  "fieldtype": "Text Editor",
-  "insert_after": "website",
+  "fieldtype": "Long Text",
+  "insert_after": "address",
   "label": "Description",
   "module": "CRM Extended",
   "name": "CRM Organization-description",
