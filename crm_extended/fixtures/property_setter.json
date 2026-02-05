@@ -18,5 +18,15 @@
   "module": "CRM Extended",
   "name": "CRM Lead-organization-options",
   "doctype": "Property Setter"
+ },
+ {
+  "doctype_or_field": "DocField",
+  "doc_type": "CRM Organization",
+  "field_name": "no_of_employees",
+  "property": "options",
+  "value": "1-10\n11-20\n21-50\n51-100\n101-200\n201-500\n501-1000",
+  "module": "CRM Extended",
+  "name": "CRM Organization-no_of_employees-options",
+  "doctype": "Property Setter"
  }
 ]

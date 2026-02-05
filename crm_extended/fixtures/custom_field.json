@@ -91,9 +91,19 @@
  },
  {
   "dt": "CRM Lead",
+  "fieldname": "teable_ref_code",
+  "fieldtype": "Data",
+  "insert_after": "apollo_ref_code",
+  "label": "Teable Ref Code",
+  "module": "CRM Extended",
+  "name": "CRM Lead-teable_ref_code",
+  "doctype": "Custom Field"
+ },
+ {
+  "dt": "CRM Lead",
   "fieldname": "lead_links",
   "fieldtype": "Table",
-  "insert_after": "apollo_ref_code",
+  "insert_after": "teable_ref_code",
   "label": "Links",
   "module": "CRM Extended",
   "name": "CRM Lead-lead_links",
@@ -112,9 +122,29 @@
  },
  {
   "dt": "CRM Organization",
+  "fieldname": "founded",
+  "fieldtype": "Data",
+  "insert_after": "no_of_employees",
+  "label": "Founded",
+  "module": "CRM Extended",
+  "name": "CRM Organization-founded",
+  "doctype": "Custom Field"
+ },
+ {
+  "dt": "CRM Organization",
+  "fieldname": "description",
+  "fieldtype": "Text Editor",
+  "insert_after": "website",
+  "label": "Description",
+  "module": "CRM Extended",
+  "name": "CRM Organization-description",
+  "doctype": "Custom Field"
+ },
+ {
+  "dt": "CRM Organization",
   "fieldname": "social_media_tab",
   "fieldtype": "Tab Break",
-  "insert_after": "website",
+  "insert_after": "description",
   "label": "Social Media",
   "module": "CRM Extended",
   "name": "CRM Organization-social_media_tab",
@@ -188,6 +218,16 @@
   "label": "Apollo Ref Code",
   "module": "CRM Extended",
   "name": "CRM Organization-apollo_ref_code",
+  "doctype": "Custom Field"
+ },
+ {
+  "dt": "CRM Organization",
+  "fieldname": "teable_ref_code",
+  "fieldtype": "Data",
+  "insert_after": "apollo_ref_code",
+  "label": "Teable Ref Code",
+  "module": "CRM Extended",
+  "name": "CRM Organization-teable_ref_code",
   "doctype": "Custom Field"
  },
  {
