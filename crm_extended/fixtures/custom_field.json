@@ -112,12 +112,12 @@
  },
  {
   "dt": "CRM Lead",
-  "fieldname": "address",
+  "fieldname": "location",
   "fieldtype": "Data",
   "insert_after": "industry",
-  "label": "Address",
+  "label": "Location",
   "module": "CRM Extended",
-  "name": "CRM Lead-address",
+  "name": "CRM Lead-location",
   "doctype": "Custom Field"
  },
  {
@@ -134,7 +134,7 @@
   "dt": "CRM Organization",
   "fieldname": "description",
   "fieldtype": "Long Text",
-  "insert_after": "address",
+  "insert_after": "industry",
   "label": "Description",
   "module": "CRM Extended",
   "name": "CRM Organization-description",
