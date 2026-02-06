@@ -122,6 +122,16 @@
  },
  {
   "dt": "CRM Organization",
+  "fieldname": "phone",
+  "fieldtype": "Data",
+  "insert_after": "organization_logo",
+  "label": "Phone",
+  "module": "CRM Extended",
+  "name": "CRM Organization-phone",
+  "doctype": "Custom Field"
+ },
+ {
+  "dt": "CRM Organization",
   "fieldname": "founded",
   "fieldtype": "Data",
   "insert_after": "no_of_employees",
