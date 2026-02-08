@@ -134,13 +134,14 @@ jinja = {
 # ---------------
 # Hook on document methods and events
 
-# doc_events = {
-# 	"*": {
-# 		"on_update": "method",
-# 		"on_cancel": "method",
-# 		"on_trash": "method"
-# 	}
-# }
+doc_events = {
+	"CRM Lead": {
+		"before_save": "crm_extended.crm_extended.utils.hooks_handler.crm_lead_before_save"
+	},
+	"CRM Organization": {
+		"before_save": "crm_extended.crm_extended.utils.hooks_handler.crm_organization_before_save"
+	}
+}
 
 # Scheduled Tasks
 # ---------------
