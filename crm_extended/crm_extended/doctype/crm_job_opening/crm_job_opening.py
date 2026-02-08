@@ -4,5 +4,5 @@
 
 from frappe.model.document import Document
 
-class JobOpening(Document):
+class CRMJobOpening(Document):
 	pass

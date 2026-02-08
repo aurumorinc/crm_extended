@@ -13,7 +13,6 @@
   "employment_type",
   "location",
   "posted_on",
-  "closes_on",
   "section_break_description",
   "description",
   "section_break_salary",
@@ -71,11 +70,6 @@
    "label": "Posted On"
   },
   {
-   "fieldname": "closes_on",
-   "fieldtype": "Date",
-   "label": "Closes On"
-  },
-  {
    "fieldname": "section_break_description",
    "fieldtype": "Section Break",
    "label": "Details"
@@ -126,8 +120,8 @@
   }
  ],
  "modified": "2025-02-08 17:46:25.047000",
- "module": "CRM Extended",
- "name": "Job Opening",
+ "module": "FCRM",
+ "name": "CRM Job Opening",
  "owner": "Administrator",
  "permissions": [
   {
