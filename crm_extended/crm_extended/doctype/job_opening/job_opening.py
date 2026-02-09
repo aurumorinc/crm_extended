@@ -5,7 +5,7 @@
 from frappe.model.document import Document
 from frappe.utils import add_to_date, get_datetime
 
-class CRMJobOpening(Document):
+class JobOpening(Document):
 	def before_save(self):
 		self.set_state()
 
