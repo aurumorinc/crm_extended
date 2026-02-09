@@ -12,15 +12,16 @@
   "employment_type",
   "location",
   "posted_on",
-  "section_break_description",
+  "section_break_1",
+  "website",
+  "section_break_2",
   "description",
-  "section_break_salary",
+  "section_break_3",
   "currency",
   "lower_range",
   "upper_range",
-  "column_break_salary",
+  "column_break_2",
   "salary_per",
-  "website",
   "synced"
  ],
  "fields": [
@@ -60,10 +61,18 @@
    "fieldtype": "Date",
    "label": "Posted On"
   },
+    {
+   "fieldname": "section_break_1",
+   "fieldtype": "Section Break"
+  },
   {
-   "fieldname": "section_break_description",
-   "fieldtype": "Section Break",
-   "label": "Details"
+   "fieldname": "website",
+   "fieldtype": "Data",
+   "label": "Website"
+  },
+  {
+   "fieldname": "section_break_2",
+   "fieldtype": "Section Break"
   },
   {
    "fieldname": "description",
@@ -71,9 +80,8 @@
    "label": "Description"
   },
   {
-   "fieldname": "section_break_salary",
-   "fieldtype": "Section Break",
-   "label": "Salary"
+   "fieldname": "section_break_3",
+   "fieldtype": "Section Break"
   },
   {
    "fieldname": "currency",
@@ -94,7 +102,7 @@
    "options": "currency"
   },
   {
-   "fieldname": "column_break_salary",
+   "fieldname": "column_break_2",
    "fieldtype": "Column Break"
   },
   {
@@ -103,11 +111,6 @@
    "fieldtype": "Select",
    "label": "Salary Paid Per",
    "options": "Month\nYear"
-  },
-  {
-   "fieldname": "website",
-   "fieldtype": "Data",
-   "label": "Website"
   },
   {
    "fieldname": "synced",
