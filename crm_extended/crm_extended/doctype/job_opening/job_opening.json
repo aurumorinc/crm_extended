@@ -8,7 +8,6 @@
  "field_order": [
   "job_title",
   "organization",
-  "status",
   "column_break_1",
   "employment_type",
   "location",
@@ -39,15 +38,6 @@
    "label": "Organization",
    "options": "CRM Organization",
    "reqd": 1
-  },
-  {
-   "default": "Open",
-   "fieldname": "status",
-   "fieldtype": "Select",
-   "in_list_view": 1,
-   "in_standard_filter": 1,
-   "label": "Status",
-   "options": "Open\nClosed"
   },
   {
    "fieldname": "column_break_1",
