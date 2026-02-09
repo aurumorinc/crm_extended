@@ -22,7 +22,10 @@
   "upper_range",
   "column_break_2",
   "salary_per",
-  "synced"
+  "integration_tab",
+  "teable_ref_code",
+  "synced",
+  "state"
  ],
  "fields": [
   {
@@ -111,6 +114,16 @@
    "fieldtype": "Select",
    "label": "Salary Paid Per",
    "options": "Month\nYear"
+  },
+  {
+   "fieldname": "integration_tab",
+   "fieldtype": "Tab Break",
+   "label": "Integration"
+  },
+  {
+   "fieldname": "teable_ref_code",
+   "fieldtype": "Data",
+   "label": "Teable Ref Code"
   },
   {
    "fieldname": "synced",
