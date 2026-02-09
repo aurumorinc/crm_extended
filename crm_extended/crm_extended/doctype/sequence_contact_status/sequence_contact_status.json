@@ -20,7 +20,7 @@
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "module": "Sequence",
+ "module": "CRM Extended",
  "name": "Sequence Contact Status",
  "owner": "hello@aurumor.com",
  "permissions": [

@@ -27,7 +27,7 @@
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "module": "Papermark",
+ "module": "CRM Extended",
  "name": "Document",
  "owner": "hello@aurumor.com",
  "permissions": [
