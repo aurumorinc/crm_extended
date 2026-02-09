@@ -112,7 +112,8 @@
   {
    "fieldname": "synced",
    "fieldtype": "Datetime",
-   "label": "Last synced"
+   "label": "Last synced",
+   "hidden": 1
   },
   {
    "fieldname": "state",

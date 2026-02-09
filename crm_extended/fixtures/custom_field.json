@@ -126,6 +126,7 @@
   "fieldtype": "Datetime",
   "insert_after": "location",
   "label": "Last synced",
+  "hidden": 1,
   "module": "CRM Extended",
   "name": "CRM Lead-synced",
   "doctype": "Custom Field"
@@ -278,6 +279,7 @@
   "fieldtype": "Datetime",
   "insert_after": "teable_ref_code",
   "label": "Last synced",
+  "hidden": 1,
   "module": "CRM Extended",
   "name": "CRM Organization-synced",
   "doctype": "Custom Field"
