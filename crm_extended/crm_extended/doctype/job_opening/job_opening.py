@@ -10,10 +10,10 @@ class JobOpening(Document):
         self.set_state()
 
     def set_state(self):
-        # Fix: Added as_datetime=True to ensure both sides are datetime objects
+        # Fix: Ensure comparison between datetime objects
         if self.synced and not (
             get_datetime(self.modified or self.creation)
-            > add_to_date(self.synced, seconds=30, as_datetime=True)
+            > get_datetime(add_to_date(self.synced, seconds=30))
         ):
             self.state = "Current"
         else:
