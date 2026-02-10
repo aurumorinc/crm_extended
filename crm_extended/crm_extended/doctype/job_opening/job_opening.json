@@ -1,7 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "format:JOB-{YYYY}-{####}",
+ "autoname": "format:HR-OPN-{YYYY}-{####}",
  "creation": "2026-02-08 17:46:25.047000",
  "doctype": "DocType",
  "engine": "InnoDB",
