@@ -297,6 +297,17 @@
   "doctype": "Custom Field"
  },
  {
+  "dt": "CRM Organization",
+  "fieldname": "status",
+  "fieldtype": "Link",
+  "insert_after": "organization_name",
+  "label": "Status",
+  "module": "CRM Extended",
+  "name": "CRM Organization-status",
+  "options": "CRM Organization Status",
+  "doctype": "Custom Field"
+ },
+ {
   "dt": "Email Template",
   "fieldname": "prompt_section",
   "fieldtype": "Tab Break",

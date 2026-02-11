@@ -1,20 +1,20 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "field:lead_status",
+ "autoname": "field:organization_status",
  "creation": "2026-12-30 03:33:32.427569",
  "custom": 1,
  "default_view": "List",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "lead_status",
+  "organization_status",
   "color",
   "position"
  ],
  "fields": [
   {
-   "fieldname": "lead_status",
+   "fieldname": "organization_status",
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Status",
