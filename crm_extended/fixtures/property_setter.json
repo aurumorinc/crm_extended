@@ -28,5 +28,15 @@
   "module": "CRM Extended",
   "name": "CRM Organization-no_of_employees-options",
   "doctype": "Property Setter"
+ },
+ {
+  "doctype_or_field": "DocField",
+  "doc_type": "Google Calendar",
+  "field_name": "google_calendar_id",
+  "property": "read_only",
+  "value": "0",
+  "module": "CRM Extended",
+  "name": "Google Calendar-google_calendar_id-read_only",
+  "doctype": "Property Setter"
  }
 ]
