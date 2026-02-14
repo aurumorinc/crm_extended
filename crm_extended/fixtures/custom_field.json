@@ -121,29 +121,6 @@
   "doctype": "Custom Field"
  },
  {
-  "dt": "CRM Lead",
-  "fieldname": "synced",
-  "fieldtype": "Datetime",
-  "insert_after": "location",
-  "label": "Last synced",
-  "hidden": 1,
-  "module": "CRM Extended",
-  "name": "CRM Lead-synced",
-  "doctype": "Custom Field"
- },
- {
-  "dt": "CRM Lead",
-  "fieldname": "state",
-  "fieldtype": "Data",
-  "insert_after": "synced",
-  "label": "State",
-  "hidden": 1,
-  "read_only": 1,
-  "module": "CRM Extended",
-  "name": "CRM Lead-state",
-  "doctype": "Custom Field"
- },
- {
   "dt": "CRM Organization",
   "fieldname": "phone",
   "fieldtype": "Data",
@@ -271,29 +248,6 @@
   "label": "Teable Ref Code",
   "module": "CRM Extended",
   "name": "CRM Organization-teable_ref_code",
-  "doctype": "Custom Field"
- },
- {
-  "dt": "CRM Organization",
-  "fieldname": "synced",
-  "fieldtype": "Datetime",
-  "insert_after": "teable_ref_code",
-  "label": "Last synced",
-  "hidden": 1,
-  "module": "CRM Extended",
-  "name": "CRM Organization-synced",
-  "doctype": "Custom Field"
- },
- {
-  "dt": "CRM Organization",
-  "fieldname": "state",
-  "fieldtype": "Data",
-  "insert_after": "synced",
-  "label": "State",
-  "hidden": 1,
-  "read_only": 1,
-  "module": "CRM Extended",
-  "name": "CRM Organization-state",
   "doctype": "Custom Field"
  },
  {

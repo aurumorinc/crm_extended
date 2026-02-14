@@ -136,10 +136,10 @@ jinja = {
 
 doc_events = {
 	"CRM Lead": {
-		"before_save": "crm_extended.crm_extended.utils.hooks_handler.crm_lead_before_save"
+		"on_update": "crm_extended.crm_extended.utils.hooks_handler.queue_sync"
 	},
 	"CRM Organization": {
-		"before_save": "crm_extended.crm_extended.utils.hooks_handler.crm_organization_before_save"
+		"on_update": "crm_extended.crm_extended.utils.hooks_handler.queue_sync"
 	}
 }
 
