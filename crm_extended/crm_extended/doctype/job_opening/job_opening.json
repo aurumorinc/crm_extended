@@ -23,9 +23,7 @@
   "column_break_2",
   "salary_per",
   "integration_tab",
-  "teable_ref_code",
-  "synced",
-  "state"
+  "teable_ref_code"
  ],
  "fields": [
   {
@@ -124,12 +122,6 @@
    "fieldname": "teable_ref_code",
    "fieldtype": "Data",
    "label": "Teable Ref Code"
-  },
-  {
-   "fieldname": "synced",
-   "fieldtype": "Datetime",
-   "label": "Last synced",
-   "hidden": 1
   },
   {
    "fieldname": "state",
