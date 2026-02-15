@@ -1,0 +1,175 @@
+{
+ "actions": [],
+ "creation": "2024-02-15 13:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "enabled",
+  "sb_endpoint",
+  "request_url",
+  "request_method",
+  "request_structure",
+  "sb_headers",
+  "webhook_headers",
+  "sb_data",
+  "webhook_data",
+  "webhook_json",
+  "sb_security",
+  "enable_security",
+  "webhook_secret",
+  "sb_trigger",
+  "condition",
+  "sb_rate_limiting",
+  "enable_rate_limit",
+  "rate_limit_count",
+  "rate_limit_interval",
+  "last_processed_at",
+  "background_jobs_queue"
+ ],
+ "fields": [
+  {
+   "default": "1",
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "label": "Enabled"
+  },
+  {
+   "fieldname": "sb_endpoint",
+   "fieldtype": "Section Break",
+   "label": "Endpoint"
+  },
+  {
+   "fieldname": "request_url",
+   "fieldtype": "Small Text",
+   "label": "Request URL",
+   "reqd": 1
+  },
+  {
+   "default": "POST",
+   "fieldname": "request_method",
+   "fieldtype": "Select",
+   "label": "Request Method",
+   "options": "POST\nGET\nPUT\nDELETE\nPATCH",
+   "reqd": 1
+  },
+  {
+   "default": "JSON",
+   "fieldname": "request_structure",
+   "fieldtype": "Select",
+   "label": "Request Structure",
+   "options": "Form URL-Encoded\nJSON"
+  },
+  {
+   "fieldname": "sb_headers",
+   "fieldtype": "Section Break",
+   "label": "Headers"
+  },
+  {
+   "fieldname": "webhook_headers",
+   "fieldtype": "Table",
+   "label": "Webhook Headers",
+   "options": "Webhook Header"
+  },
+  {
+   "fieldname": "sb_data",
+   "fieldtype": "Section Break",
+   "label": "Data"
+  },
+  {
+   "depends_on": "eval:doc.request_structure==\"Form URL-Encoded\"",
+   "fieldname": "webhook_data",
+   "fieldtype": "Table",
+   "label": "Webhook Data",
+   "options": "Webhook Data"
+  },
+  {
+   "depends_on": "eval:doc.request_structure==\"JSON\"",
+   "fieldname": "webhook_json",
+   "fieldtype": "Code",
+   "label": "Webhook JSON",
+   "options": "JSON"
+  },
+  {
+   "fieldname": "sb_security",
+   "fieldtype": "Section Break",
+   "label": "Security"
+  },
+  {
+   "default": "0",
+   "fieldname": "enable_security",
+   "fieldtype": "Check",
+   "label": "Enable Security"
+  },
+  {
+   "depends_on": "enable_security",
+   "fieldname": "webhook_secret",
+   "fieldtype": "Password",
+   "label": "Webhook Secret"
+  },
+  {
+   "fieldname": "sb_trigger",
+   "fieldtype": "Section Break",
+   "label": "Trigger"
+  },
+  {
+   "fieldname": "condition",
+   "fieldtype": "Small Text",
+   "label": "Condition"
+  },
+  {
+   "fieldname": "sb_rate_limiting",
+   "fieldtype": "Section Break",
+   "label": "Rate Limiting"
+  },
+  {
+   "default": "1",
+   "fieldname": "enable_rate_limit",
+   "fieldtype": "Check",
+   "label": "Enable Rate Limit"
+  },
+  {
+   "default": "60",
+   "fieldname": "rate_limit_count",
+   "fieldtype": "Int",
+   "label": "Requests per Interval"
+  },
+  {
+   "default": "60",
+   "fieldname": "rate_limit_interval",
+   "fieldtype": "Int",
+   "label": "Interval (Seconds)"
+  },
+  {
+   "fieldname": "last_processed_at",
+   "fieldtype": "Datetime",
+   "hidden": 1,
+   "label": "Last Processed At",
+   "read_only": 1
+  },
+  {
+   "default": "default",
+   "fieldname": "background_jobs_queue",
+   "fieldtype": "Data",
+   "label": "Background Jobs Queue"
+  }
+ ],
+ "issingle": 1,
+ "module": "CRM Extended",
+ "name": "Apollo Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
