@@ -7,6 +7,10 @@
   "enabled",
   "sb_endpoint",
   "request_url",
+  "is_dynamic_url",
+  "timeout",
+  "background_jobs_queue",
+  "cb_webhook",
   "request_method",
   "request_structure",
   "sb_headers",
@@ -23,8 +27,7 @@
   "enable_rate_limit",
   "rate_limit_count",
   "rate_limit_interval",
-  "last_processed_at",
-  "background_jobs_queue"
+  "last_processed_at"
  ],
  "fields": [
   {
@@ -36,13 +39,38 @@
   {
    "fieldname": "sb_endpoint",
    "fieldtype": "Section Break",
-   "label": "Endpoint"
+   "label": "Webhook Request"
   },
   {
    "fieldname": "request_url",
    "fieldtype": "Small Text",
    "label": "Request URL",
    "reqd": 1
+  },
+  {
+   "default": "0",
+   "description": "On checking this option, URL will be treated like a jinja template string",
+   "fieldname": "is_dynamic_url",
+   "fieldtype": "Check",
+   "label": "Is Dynamic URL?"
+  },
+  {
+   "default": "5",
+   "description": "The number of seconds until the request expires",
+   "fieldname": "timeout",
+   "fieldtype": "Int",
+   "label": "Request Timeout"
+  },
+  {
+   "default": "default",
+   "fieldname": "background_jobs_queue",
+   "fieldtype": "Select",
+   "label": "Background Jobs Queue",
+   "options": "default\nshort\nlong"
+  },
+  {
+   "fieldname": "cb_webhook",
+   "fieldtype": "Column Break"
   },
   {
    "default": "POST",
@@ -62,7 +90,7 @@
   {
    "fieldname": "sb_headers",
    "fieldtype": "Section Break",
-   "label": "Headers"
+   "label": "Webhook Headers"
   },
   {
    "fieldname": "webhook_headers",
@@ -73,7 +101,7 @@
   {
    "fieldname": "sb_data",
    "fieldtype": "Section Break",
-   "label": "Data"
+   "label": "Webhook Data"
   },
   {
    "depends_on": "eval:doc.request_structure==\"Form URL-Encoded\"",
@@ -92,7 +120,7 @@
   {
    "fieldname": "sb_security",
    "fieldtype": "Section Break",
-   "label": "Security"
+   "label": "Webhook Security"
   },
   {
    "default": "0",
@@ -109,12 +137,21 @@
   {
    "fieldname": "sb_trigger",
    "fieldtype": "Section Break",
-   "label": "Trigger"
+   "label": "Webhook Trigger"
   },
   {
    "fieldname": "condition",
    "fieldtype": "Small Text",
    "label": "Condition"
+  },
+  {
+   "fieldname": "cb_condition",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "html_condition",
+   "fieldtype": "HTML",
+   "options": "<p><strong>Condition Examples:</strong></p>\n<pre>doc.status==\"Open\"<br>doc.due_date==nowdate()<br>doc.total > 40000\n</pre>"
   },
   {
    "fieldname": "sb_rate_limiting",
@@ -145,12 +182,6 @@
    "hidden": 1,
    "label": "Last Processed At",
    "read_only": 1
-  },
-  {
-   "default": "default",
-   "fieldname": "background_jobs_queue",
-   "fieldtype": "Data",
-   "label": "Background Jobs Queue"
   }
  ],
  "issingle": 1,
