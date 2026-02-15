@@ -146,14 +146,14 @@ doc_events = {
 # Scheduled Tasks
 # ---------------
 
-# scheduler_events = {
-# 	"cron": {
-# 		"* * * * *": [
-# 			"crm_extended.crm_extended.integrations.utils.process_apollo_queue",
-# 			"crm_extended.crm_extended.integrations.utils.process_teable_queue"
-# 		]
-# 	}
-# }
+scheduler_events = {
+	"cron": {
+		"* * * * *": [
+			"crm_extended.crm_extended.integrations.utils.process_apollo_queue",
+			"crm_extended.crm_extended.integrations.utils.process_teable_queue"
+		]
+	}
+}
 
 # Testing
 # -------
