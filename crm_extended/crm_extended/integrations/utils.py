@@ -107,14 +107,14 @@ def trigger_integration(doc, method, integration_name):
             headers=headers,
             data=data,
             integration_name=integration_name,
-            timeout=timeout
+            request_timeout=timeout
         )
 
     except Exception as e:
         frappe.log_error(f"Error triggering {integration_name} integration: {str(e)}", "Integration Error")
 
 
-def send_webhook_request(url, request_method, headers, data, integration_name=None, timeout=5):
+def send_webhook_request(url, request_method, headers, data, integration_name=None, request_timeout=5):
     """
     Worker function to send the actual request with retry logic.
     """
@@ -153,7 +153,7 @@ def send_webhook_request(url, request_method, headers, data, integration_name=No
                 headers=headers,
                 json=json_data,
                 data=form_data,
-                timeout=timeout
+                timeout=request_timeout
             )
             
             response.raise_for_status()
