@@ -26,7 +26,7 @@
   "cb_rate_limiting",
   "frequency",
   "cron_format",
-  "last_processed_at"
+  "processed"
  ],
  "fields": [
   {
@@ -154,10 +154,10 @@
    "label": "Cron Format"
   },
   {
-   "fieldname": "last_processed_at",
+   "fieldname": "processed",
    "fieldtype": "Datetime",
    "hidden": 1,
-   "label": "Last Processed At",
+   "label": "Processed",
    "read_only": 1
   }
  ],

@@ -166,7 +166,7 @@ def _process_integration_queue(settings_doctype, queue_key):
             # If it failed, do we re-queue? For now, we log and move on to prevent blocking.
     
     if processed_count > 0:
-        frappe.db.set_value(settings_doctype, settings.name, "last_processed_at", now_datetime())
+        frappe.db.set_value(settings_doctype, settings.name, "processed", now_datetime())
 
 
 def _send_integration_webhook(settings, doc, method, integration_name):
