@@ -24,7 +24,8 @@
   "enable_rate_limit",
   "rate_limit_count",
   "cb_rate_limiting",
-  "rate_limit_interval",
+  "frequency",
+  "cron_format",
   "last_processed_at"
  ],
  "fields": [
@@ -140,10 +141,17 @@
    "label": "Requests per Interval"
   },
   {
-   "default": "60",
-   "fieldname": "rate_limit_interval",
-   "fieldtype": "Int",
-   "label": "Interval (Seconds)"
+   "default": "All",
+   "fieldname": "frequency",
+   "fieldtype": "Select",
+   "label": "Frequency",
+   "options": "All\nDaily\nWeekly\nMonthly\nHourly\nCron"
+  },
+  {
+   "depends_on": "eval:doc.frequency==='Cron'",
+   "fieldname": "cron_format",
+   "fieldtype": "Small Text",
+   "label": "Cron Format"
   },
   {
    "fieldname": "last_processed_at",
