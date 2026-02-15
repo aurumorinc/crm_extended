@@ -140,6 +140,12 @@ doc_events = {
 		"on_submit": "crm_extended.crm_extended.utils.hooks_handler.handle_integration_trigger",
 		"on_cancel": "crm_extended.crm_extended.utils.hooks_handler.handle_integration_trigger",
 		"on_trash": "crm_extended.crm_extended.utils.hooks_handler.handle_integration_trigger"
+	},
+	"CRM Lead": {
+		"on_update": [
+			"crm_extended.crm_extended.utils.hooks_handler.handle_integration_trigger",
+			"crm_extended.crm_extended.doctype.google_mail.google_mail.fetch_emails_for_lead"
+		]
 	}
 }
 
@@ -150,7 +156,8 @@ scheduler_events = {
 	"cron": {
 		"* * * * *": [
 			"crm_extended.crm_extended.integrations.utils.process_apollo_queue",
-			"crm_extended.crm_extended.integrations.utils.process_teable_queue"
+			"crm_extended.crm_extended.integrations.utils.process_teable_queue",
+			"crm_extended.crm_extended.doctype.google_mail.google_mail.sync"
 		]
 	}
 }
