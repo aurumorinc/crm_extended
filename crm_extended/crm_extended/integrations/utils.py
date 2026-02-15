@@ -3,7 +3,7 @@ from frappe import _
 import requests
 import json
 import time
-from frappe.utils import now_datetime, get_datetime, now, add_to_date
+from frappe.utils import now_datetime, get_datetime, now, add_to_date, cint
 from frappe.utils.jinja import validate_template
 from frappe.integrations.doctype.webhook.webhook import get_context
 
@@ -30,6 +30,28 @@ def trigger_integration(doc, method, integration_name):
         
         if not frappe.safe_eval(settings.condition, context):
             return
+
+    # Rate Limiting
+    if settings.enable_rate_limit:
+        rate_limit_key = f"crm_extended:rate_limit:{integration_name}"
+        rate_limit_count = settings.rate_limit_count or 60
+        rate_limit_interval = settings.rate_limit_interval or 60
+        
+        # Simple sliding window or fixed window counter using Redis
+        current_count = frappe.cache().get_value(rate_limit_key) or 0
+        if cint(current_count) >= cint(rate_limit_count):
+            frappe.logger().info(f"Rate limit exceeded for {integration_name}. Skipping webhook.")
+            return
+
+        # Increment count and set expiry if new
+        pipe = frappe.cache().pipeline()
+        pipe.incr(rate_limit_key)
+        if not current_count:
+             pipe.expire(rate_limit_key, rate_limit_interval)
+        pipe.execute()
+        
+        # Update last processed at (optional, for UI visibility)
+        frappe.db.set_value(settings_doctype, settings.name, "last_processed_at", now_datetime())
 
     # Prepare Request
     try:
@@ -62,6 +84,16 @@ def trigger_integration(doc, method, integration_name):
         # Enqueue the job with synchronous=False (async)
         queue_name = settings.background_jobs_queue or 'default'
         
+        # Security: Add HMAC Signature if enabled
+        if settings.enable_security and settings.webhook_secret:
+            import hmac
+            import hashlib
+            
+            secret = settings.webhook_secret.encode('utf-8')
+            payload_string = json.dumps(data) if isinstance(data, (dict, list)) else str(data or "")
+            signature = hmac.new(secret, payload_string.encode('utf-8'), hashlib.sha256).hexdigest()
+            headers['X-Frappe-Signature'] = signature
+
         frappe.enqueue(
             method="crm_extended.crm_extended.integrations.utils.send_webhook_request",
             queue=queue_name,
@@ -71,7 +103,7 @@ def trigger_integration(doc, method, integration_name):
             job_name=f"{integration_name}-{doc.doctype}-{doc.name}",
             # Args
             url=request_url,
-            method=settings.request_method,
+            request_method=settings.request_method,
             headers=headers,
             data=data,
             integration_name=integration_name
@@ -81,7 +113,7 @@ def trigger_integration(doc, method, integration_name):
         frappe.log_error(f"Error triggering {integration_name} integration: {str(e)}", "Integration Error")
 
 
-def send_webhook_request(url, method, headers, data, integration_name=None):
+def send_webhook_request(url, request_method, headers, data, integration_name=None):
     """
     Worker function to send the actual request with retry logic.
     """
@@ -115,7 +147,7 @@ def send_webhook_request(url, method, headers, data, integration_name=None):
                 form_data = data
 
             response = requests.request(
-                method=method,
+                method=request_method,
                 url=url,
                 headers=headers,
                 json=json_data,
