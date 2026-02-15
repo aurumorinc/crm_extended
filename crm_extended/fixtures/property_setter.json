@@ -1,0 +1,42 @@
+[
+ {
+  "doctype_or_field": "DocField",
+  "doc_type": "CRM Lead",
+  "field_name": "organization",
+  "property": "fieldtype",
+  "value": "Link",
+  "module": "CRM Extended",
+  "name": "CRM Lead-organization-fieldtype",
+  "doctype": "Property Setter"
+ },
+ {
+  "doctype_or_field": "DocField",
+  "doc_type": "CRM Lead",
+  "field_name": "organization",
+  "property": "options",
+  "value": "CRM Organization",
+  "module": "CRM Extended",
+  "name": "CRM Lead-organization-options",
+  "doctype": "Property Setter"
+ },
+ {
+  "doctype_or_field": "DocField",
+  "doc_type": "CRM Organization",
+  "field_name": "no_of_employees",
+  "property": "options",
+  "value": "1-10\n11-20\n21-50\n51-100\n101-200\n201-500\n501-1000",
+  "module": "CRM Extended",
+  "name": "CRM Organization-no_of_employees-options",
+  "doctype": "Property Setter"
+ },
+ {
+  "doctype_or_field": "DocField",
+  "doc_type": "Google Calendar",
+  "field_name": "google_calendar_id",
+  "property": "read_only",
+  "value": "0",
+  "module": "CRM Extended",
+  "name": "Google Calendar-google_calendar_id-read_only",
+  "doctype": "Property Setter"
+ }
+]
