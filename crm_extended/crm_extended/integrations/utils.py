@@ -56,8 +56,7 @@ def trigger_integration(doc, method, integration_name):
     # Prepare Request
     try:
         request_url = settings.request_url
-        # Check if URL needs rendering (simple check for {{)
-        if "{{" in request_url:
+        if settings.is_dynamic_url or "{{" in request_url:
             request_url = frappe.render_template(settings.request_url, get_context(doc))
 
         headers = {}
@@ -94,10 +93,11 @@ def trigger_integration(doc, method, integration_name):
             signature = hmac.new(secret, payload_string.encode('utf-8'), hashlib.sha256).hexdigest()
             headers['X-Frappe-Signature'] = signature
 
+        timeout = settings.timeout or 5
         frappe.enqueue(
             method="crm_extended.crm_extended.integrations.utils.send_webhook_request",
             queue=queue_name,
-            timeout=300, # Fixed timeout as 'timeout' field doesn't exist in settings yet
+            timeout=300, # Background job timeout
             event=method,
             is_async=True,
             job_name=f"{integration_name}-{doc.doctype}-{doc.name}",
@@ -106,14 +106,15 @@ def trigger_integration(doc, method, integration_name):
             request_method=settings.request_method,
             headers=headers,
             data=data,
-            integration_name=integration_name
+            integration_name=integration_name,
+            timeout=timeout
         )
 
     except Exception as e:
         frappe.log_error(f"Error triggering {integration_name} integration: {str(e)}", "Integration Error")
 
 
-def send_webhook_request(url, request_method, headers, data, integration_name=None):
+def send_webhook_request(url, request_method, headers, data, integration_name=None, timeout=5):
     """
     Worker function to send the actual request with retry logic.
     """
@@ -152,7 +153,7 @@ def send_webhook_request(url, request_method, headers, data, integration_name=No
                 headers=headers,
                 json=json_data,
                 data=form_data,
-                timeout=10
+                timeout=timeout
             )
             
             response.raise_for_status()

@@ -140,6 +140,7 @@
    "label": "Webhook Trigger"
   },
   {
+   "description": "The webhook will be triggered if this expression is true",
    "fieldname": "condition",
    "fieldtype": "Small Text",
    "label": "Condition"
@@ -158,6 +159,32 @@
    "fieldtype": "Section Break",
    "label": "Rate Limiting"
   },
+  {
+   "default": "1",
+   "fieldname": "enable_rate_limit",
+   "fieldtype": "Check",
+   "label": "Enable Rate Limit"
+  },
+  {
+   "default": "60",
+   "fieldname": "rate_limit_count",
+   "fieldtype": "Int",
+   "label": "Requests per Interval"
+  },
+  {
+   "default": "60",
+   "fieldname": "rate_limit_interval",
+   "fieldtype": "Int",
+   "label": "Interval (Seconds)"
+  },
+  {
+   "fieldname": "last_processed_at",
+   "fieldtype": "Datetime",
+   "hidden": 1,
+   "label": "Last Processed At",
+   "read_only": 1
+  }
+ ],
   {
    "default": "1",
    "fieldname": "enable_rate_limit",
