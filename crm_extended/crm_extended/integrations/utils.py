@@ -35,25 +35,145 @@ def trigger_integration(doc, method, integration_name):
     if settings.enable_rate_limit:
         rate_limit_key = f"crm_extended:rate_limit:{integration_name}"
         rate_limit_count = settings.rate_limit_count or 60
-        rate_limit_interval = settings.rate_limit_interval or 60
-        
-        # Simple sliding window or fixed window counter using Redis
-        current_count = frappe.cache().get_value(rate_limit_key) or 0
-        if cint(current_count) >= cint(rate_limit_count):
-            frappe.logger().info(f"Rate limit exceeded for {integration_name}. Skipping webhook.")
-            return
+    # Prepare payload data (always minimal)
+    data = {
+        "doctype": doc.doctype,
+        "name": doc.name,
+        "event": method # Track event type if needed later
+    }
 
-        # Increment count and set expiry if new
-        pipe = frappe.cache().pipeline()
-        pipe.incr(rate_limit_key)
-        if not current_count:
-             pipe.expire(rate_limit_key, rate_limit_interval)
-        pipe.execute()
+    # Queue logic: Push to Redis List
+    # We always push to queue now, and the scheduler handles the rate limiting/sending
+    if integration_name == "Apollo Settings":
+        queue_key = "crm_extended:queue:apollo"
+    elif integration_name == "Teable Settings":
+        queue_key = "crm_extended:queue:teable"
+    else:
+        # Fallback or unknown integration
+        return
+
+    try:
+        # Store as JSON string in Redis List
+        frappe.cache().rpush(queue_key, json.dumps(data))
+    except Exception as e:
+        frappe.log_error(f"Error pushing to {integration_name} queue: {str(e)}", "Integration Error")
+
+
+def process_apollo_queue():
+    _process_integration_queue("Apollo Settings", "crm_extended:queue:apollo")
+
+def process_teable_queue():
+    _process_integration_queue("Teable Settings", "crm_extended:queue:teable")
+
+def _process_integration_queue(settings_doctype, queue_key):
+    """
+    Generic function to process queued items for an integration, respecting rate limits.
+    """
+    if not frappe.db.exists("DocType", settings_doctype):
+        return
+
+    settings = frappe.get_single(settings_doctype)
+    if not settings.enabled:
+        return
+
+    # Rate Limit Configuration
+    # rate_limit_count: Max requests per interval
+    # rate_limit_interval (Frequency): Interval in seconds (default 60s)
+    # We'll use a minute-based cron, so 'interval' effectively defines the window for the count.
+    # Ideally, if cron runs every minute, we process up to 'rate_limit_count' items.
+    
+    limit_count = cint(settings.rate_limit_count) or 60
+    
+    # Frequency Handling (Schedule Check)
+    # The job runs every minute (* * * * *). We need to check if the current time matches the selected schedule.
+    # If the schedule is "All", we process every minute.
+    # If "Daily", we process only if it's midnight (or a specific time).
+    # This logic mimics standard Cron behavior within our minute-by-minute worker.
+    
+    frequency = settings.frequency or "All"
+    should_run = False
+    
+    current_time = now_datetime()
+    
+    if frequency == "All":
+        should_run = True
+    elif frequency == "Daily":
+        # Run at midnight (00:00)
+        if current_time.hour == 0 and current_time.minute == 0:
+            should_run = True
+    elif frequency == "Weekly":
+        # Run on Sunday at midnight
+        if current_time.weekday() == 6 and current_time.hour == 0 and current_time.minute == 0:
+            should_run = True
+    elif frequency == "Monthly":
+        # Run on 1st of month at midnight
+        if current_time.day == 1 and current_time.hour == 0 and current_time.minute == 0:
+            should_run = True
+    elif frequency == "Hourly":
+        # Run at the start of every hour
+        if current_time.minute == 0:
+            should_run = True
+    elif frequency == "Cron":
+        # Validate and check custom cron expression
+        if settings.cron_format:
+            from croniter import croniter
+            try:
+                # Check if current time matches the cron expression
+                # croniter doesn't have a direct "is_now" match, so we check if the *previous* schedule was exactly a minute ago (or less).
+                # Actually, simpler way for minute-resolution cron:
+                # Iterate and see if 'now' is a valid trigger time.
+                # Since we run every minute, we can just check if cron matches current time.
+                if croniter.match(settings.cron_format, current_time):
+                    should_run = True
+            except Exception:
+                frappe.log_error(f"Invalid Cron Expression for {settings_doctype}: {settings.cron_format}", "Integration Schedule Error")
+    
+    if not should_run:
+        return
+
+    # We are running this job every minute via cron.
+    # So we will fetch up to `limit_count` items from the Redis list and process them.
+    # This acts as a leaky bucket / throttled consumer.
+    
+    processed_count = 0
+    
+    while processed_count < limit_count:
+        # Pop one item from the head of the queue
+        item_data_str = frappe.cache().lpop(queue_key)
         
-        # Update last processed at (optional, for UI visibility)
+        if not item_data_str:
+            break # Queue is empty
+            
+        try:
+            if isinstance(item_data_str, bytes):
+                item_data_str = item_data_str.decode('utf-8')
+                
+            item_data = json.loads(item_data_str)
+            
+            # Reconstruct context needed for sending (e.g. headers, url generation)
+            # We need to fetch the doc again to get fresh data/context
+            if frappe.db.exists(item_data["doctype"], item_data["name"]):
+                doc = frappe.get_doc(item_data["doctype"], item_data["name"])
+                
+                # Now actually send the webhook
+                # We reuse the logic but now it's "safe" to send immediately
+                _send_integration_webhook(settings, doc, item_data.get("event"), settings_doctype)
+                
+            processed_count += 1
+            
+        except Exception as e:
+            frappe.log_error(f"Error processing queue item for {settings_doctype}: {str(e)}", "Integration Queue Error")
+            # If it failed, do we re-queue? For now, we log and move on to prevent blocking.
+    
+    if processed_count > 0:
         frappe.db.set_value(settings_doctype, settings.name, "last_processed_at", now_datetime())
 
-    # Prepare Request
+
+def _send_integration_webhook(settings, doc, method, integration_name):
+    """
+    Helper to prepare and send the actual webhook request.
+    This is called by the queue processor.
+    """
     try:
         request_url = settings.request_url
         if settings.is_dynamic_url or "{{" in request_url:
@@ -69,9 +189,6 @@ def trigger_integration(doc, method, integration_name):
             "name": doc.name
         }
 
-        # Enqueue the job with synchronous=False (async)
-        queue_name = settings.background_jobs_queue or 'default'
-        
         # Security: Add HMAC Signature if enabled
         if settings.enable_security and settings.webhook_secret:
             import hmac
@@ -83,10 +200,17 @@ def trigger_integration(doc, method, integration_name):
             headers['X-Frappe-Signature'] = signature
 
         timeout = settings.timeout or 5
+        
+        # We can now send directly since we are already in a background worker (scheduler)
+        # OR we can enqueue to the 'default' queue to offload the network IO from the scheduler thread
+        # Enqueuing is safer to prevent the scheduler from timing out if external API is slow.
+        
+        queue_name = settings.background_jobs_queue or 'default'
+        
         frappe.enqueue(
             method="crm_extended.crm_extended.integrations.utils.send_webhook_request",
             queue=queue_name,
-            timeout=300, # Background job timeout
+            timeout=300,
             event=method,
             is_async=True,
             job_name=f"{integration_name}-{doc.doctype}-{doc.name}",
@@ -98,9 +222,9 @@ def trigger_integration(doc, method, integration_name):
             integration_name=integration_name,
             request_timeout=timeout
         )
-
+        
     except Exception as e:
-        frappe.log_error(f"Error triggering {integration_name} integration: {str(e)}", "Integration Error")
+        frappe.log_error(f"Error preparing webhook for {integration_name}: {str(e)}", "Integration Error")
 
 
 def send_webhook_request(url, request_method, headers, data, integration_name=None, request_timeout=5):

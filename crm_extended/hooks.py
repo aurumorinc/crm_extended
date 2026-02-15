@@ -147,21 +147,12 @@ doc_events = {
 # ---------------
 
 # scheduler_events = {
-# 	"all": [
-# 		"crm_extended.tasks.all"
-# 	],
-# 	"daily": [
-# 		"crm_extended.tasks.daily"
-# 	],
-# 	"hourly": [
-# 		"crm_extended.tasks.hourly"
-# 	],
-# 	"weekly": [
-# 		"crm_extended.tasks.weekly"
-# 	],
-# 	"monthly": [
-# 		"crm_extended.tasks.monthly"
-# 	],
+# 	"cron": {
+# 		"* * * * *": [
+# 			"crm_extended.crm_extended.integrations.utils.process_apollo_queue",
+# 			"crm_extended.crm_extended.integrations.utils.process_teable_queue"
+# 		]
+# 	}
 # }
 
 # Testing
