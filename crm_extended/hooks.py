@@ -135,11 +135,11 @@ jinja = {
 # Hook on document methods and events
 
 doc_events = {
-	"CRM Lead": {
-		"on_update": "crm_extended.crm_extended.utils.hooks_handler.queue_sync"
-	},
-	"CRM Organization": {
-		"on_update": "crm_extended.crm_extended.utils.hooks_handler.queue_sync"
+	"*": {
+		"on_update": "crm_extended.crm_extended.utils.hooks_handler.handle_integration_trigger",
+		"on_submit": "crm_extended.crm_extended.utils.hooks_handler.handle_integration_trigger",
+		"on_cancel": "crm_extended.crm_extended.utils.hooks_handler.handle_integration_trigger",
+		"on_trash": "crm_extended.crm_extended.utils.hooks_handler.handle_integration_trigger"
 	}
 }
 
