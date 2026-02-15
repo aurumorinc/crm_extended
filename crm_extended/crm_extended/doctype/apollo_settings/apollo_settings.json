@@ -75,21 +75,6 @@
    "fieldtype": "Column Break"
   },
   {
-   "default": "POST",
-   "fieldname": "request_method",
-   "fieldtype": "Select",
-   "label": "Request Method",
-   "options": "POST\nGET\nPUT\nDELETE\nPATCH",
-   "reqd": 1
-  },
-  {
-   "default": "JSON",
-   "fieldname": "request_structure",
-   "fieldtype": "Select",
-   "label": "Request Structure",
-   "options": "Form URL-Encoded\nJSON"
-  },
-  {
    "fieldname": "sb_headers",
    "fieldtype": "Section Break",
    "label": "Webhook Headers"
@@ -99,25 +84,6 @@
    "fieldtype": "Table",
    "label": "Webhook Headers",
    "options": "Webhook Header"
-  },
-  {
-   "fieldname": "sb_data",
-   "fieldtype": "Section Break",
-   "label": "Webhook Data"
-  },
-  {
-   "depends_on": "eval:doc.request_structure==\"Form URL-Encoded\"",
-   "fieldname": "webhook_data",
-   "fieldtype": "Table",
-   "label": "Webhook Data",
-   "options": "Webhook Data"
-  },
-  {
-   "depends_on": "eval:doc.request_structure==\"JSON\"",
-   "fieldname": "webhook_json",
-   "fieldtype": "Code",
-   "label": "Webhook JSON",
-   "options": "JSON"
   },
   {
    "fieldname": "sb_security",
