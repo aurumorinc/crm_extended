@@ -12,26 +12,26 @@
   "sb_endpoint",
   "request_url",
   "is_dynamic_url",
+  "cb_webhook",
   "timeout",
   "background_jobs_queue",
-  "cb_webhook",
-  "request_method",
-  "request_structure",
   "sb_security",
   "enable_security",
   "webhook_secret",
   "sb_headers",
   "webhook_headers",
-  "sb_data",
-  "webhook_data",
-  "webhook_json",
   "sb_rate_limiting",
   "enable_rate_limit",
   "rate_limit_count",
+  "cb_rate_limiting",
   "rate_limit_interval",
   "last_processed_at"
  ],
  "fields": [
+  {
+   "fieldname": "cb_rate_limiting",
+   "fieldtype": "Column Break"
+  },
   {
    "default": "1",
    "fieldname": "enabled",

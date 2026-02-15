@@ -62,23 +62,12 @@ def trigger_integration(doc, method, integration_name):
         headers = {}
         if settings.webhook_headers:
             for h in settings.webhook_headers:
-                headers[h.key] = h.value 
+                headers[h.key] = h.value
 
-        data = None
-        if settings.request_structure == "JSON":
-             if settings.webhook_json:
-                data = frappe.render_template(settings.webhook_json, get_context(doc))
-                try:
-                    data = json.loads(data)
-                except Exception:
-                    # If it fails to parse as JSON, keep it as string or log error? 
-                    # frappe.enqueue handles serialization but requests.post(json=...) needs dict/list
-                    # Let's try to pass it as dict if possible, otherwise it might fail later
-                    pass 
-        elif settings.webhook_data:
-            data = {}
-            for d in settings.webhook_data:
-                data[d.key] = frappe.render_template(d.value, get_context(doc))
+        data = {
+            "doctype": doc.doctype,
+            "name": doc.name
+        }
 
         # Enqueue the job with synchronous=False (async)
         queue_name = settings.background_jobs_queue or 'default'
@@ -103,7 +92,7 @@ def trigger_integration(doc, method, integration_name):
             job_name=f"{integration_name}-{doc.doctype}-{doc.name}",
             # Args
             url=request_url,
-            request_method=settings.request_method,
+            request_method="POST",
             headers=headers,
             data=data,
             integration_name=integration_name,
