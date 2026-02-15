@@ -12,7 +12,7 @@ def trigger_integration(doc, method, integration_name):
     Trigger a specific integration (Apollo, Teable).
     Checks settings, conditions, and enqueues the request.
     """
-    settings_doctype = integration_name # Already passed as full doctype name e.g., "Apollo Settings"
+    settings_doctype = f"{integration_name} Settings"
     
     if not frappe.db.exists("DocType", settings_doctype):
         return
@@ -44,10 +44,10 @@ def trigger_integration(doc, method, integration_name):
 
     # Queue logic: Push to Redis List
     # We always push to queue now, and the scheduler handles the rate limiting/sending
-    if integration_name == "Apollo Settings":
-        queue_key = "crm_extended:queue:apollo"
-    elif integration_name == "Teable Settings":
-        queue_key = "crm_extended:queue:teable"
+    if integration_name == "Apollo":
+        queue_key = "apollo_sync_queue"
+    elif integration_name == "Teable":
+        queue_key = "teable_sync_queue"
     else:
         # Fallback or unknown integration
         return
@@ -60,15 +60,16 @@ def trigger_integration(doc, method, integration_name):
 
 
 def process_apollo_queue():
-    _process_integration_queue("Apollo Settings", "crm_extended:queue:apollo")
+    _process_integration_queue("Apollo", "apollo_sync_queue")
 
 def process_teable_queue():
-    _process_integration_queue("Teable Settings", "crm_extended:queue:teable")
+    _process_integration_queue("Teable", "teable_sync_queue")
 
-def _process_integration_queue(settings_doctype, queue_key):
+def _process_integration_queue(integration_name, queue_key):
     """
     Generic function to process queued items for an integration, respecting rate limits.
     """
+    settings_doctype = f"{integration_name} Settings"
     if not frappe.db.exists("DocType", settings_doctype):
         return
 
@@ -170,7 +171,7 @@ def _process_integration_queue(settings_doctype, queue_key):
                     
                     # Now actually send the webhook
                     # We reuse the logic but now it's "safe" to send immediately
-                    _send_integration_webhook(settings, doc, item_data.get("event"), settings_doctype)
+                    _send_integration_webhook(settings, doc, item_data.get("event"), integration_name)
                     
                 processed_count += 1
                 
