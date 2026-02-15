@@ -131,42 +131,59 @@ def _process_integration_queue(settings_doctype, queue_key):
     if not should_run:
         return
 
-    # We are running this job every minute via cron.
-    # So we will fetch up to `limit_count` items from the Redis list and process them.
-    # This acts as a leaky bucket / throttled consumer.
+    # Locking: Prevent overlapping runs if previous job is still running
+    lock_key = f"lock:{queue_key}"
+    # Use cache.get_value to check, but ideally we want setnx (set if not exists)
+    # frappe.cache().set_value supports expires_in_sec, but relies on Redis SETEX
+    # We implement a simple lock check.
     
-    processed_count = 0
-    
-    while processed_count < limit_count:
-        # Pop one item from the head of the queue
-        item_data_str = frappe.cache().lpop(queue_key)
+    if frappe.cache().get_value(lock_key):
+        return # Job is already running
+
+    # Set lock with 5-minute expiry (failsafe)
+    frappe.cache().set_value(lock_key, 1, expires_in_sec=300)
+
+    try:
+        # We are running this job every minute via cron.
+        # So we will fetch up to `limit_count` items from the Redis list and process them.
+        # This acts as a leaky bucket / throttled consumer.
         
-        if not item_data_str:
-            break # Queue is empty
+        processed_count = 0
+        
+        while processed_count < limit_count:
+            # Pop one item from the head of the queue
+            item_data_str = frappe.cache().lpop(queue_key)
             
-        try:
-            if isinstance(item_data_str, bytes):
-                item_data_str = item_data_str.decode('utf-8')
+            if not item_data_str:
+                break # Queue is empty
                 
-            item_data = json.loads(item_data_str)
-            
-            # Reconstruct context needed for sending (e.g. headers, url generation)
-            # We need to fetch the doc again to get fresh data/context
-            if frappe.db.exists(item_data["doctype"], item_data["name"]):
-                doc = frappe.get_doc(item_data["doctype"], item_data["name"])
+            try:
+                if isinstance(item_data_str, bytes):
+                    item_data_str = item_data_str.decode('utf-8')
+                    
+                item_data = json.loads(item_data_str)
                 
-                # Now actually send the webhook
-                # We reuse the logic but now it's "safe" to send immediately
-                _send_integration_webhook(settings, doc, item_data.get("event"), settings_doctype)
+                # Reconstruct context needed for sending (e.g. headers, url generation)
+                # We need to fetch the doc again to get fresh data/context
+                if frappe.db.exists(item_data["doctype"], item_data["name"]):
+                    doc = frappe.get_doc(item_data["doctype"], item_data["name"])
+                    
+                    # Now actually send the webhook
+                    # We reuse the logic but now it's "safe" to send immediately
+                    _send_integration_webhook(settings, doc, item_data.get("event"), settings_doctype)
+                    
+                processed_count += 1
                 
-            processed_count += 1
-            
-        except Exception as e:
-            frappe.log_error(f"Error processing queue item for {settings_doctype}: {str(e)}", "Integration Queue Error")
-            # If it failed, do we re-queue? For now, we log and move on to prevent blocking.
-    
-    if processed_count > 0:
-        frappe.db.set_value(settings_doctype, settings.name, "processed", now_datetime())
+            except Exception as e:
+                frappe.log_error(f"Error processing queue item for {settings_doctype}: {str(e)}", "Integration Queue Error")
+                # If it failed, do we re-queue? For now, we log and move on to prevent blocking.
+        
+        if processed_count > 0:
+            frappe.db.set_value(settings_doctype, settings.name, "processed", now_datetime())
+
+    finally:
+        # Release lock
+        frappe.cache().delete_value(lock_key)
 
 
 def _send_integration_webhook(settings, doc, method, integration_name):
