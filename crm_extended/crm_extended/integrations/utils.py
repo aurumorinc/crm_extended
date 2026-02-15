@@ -204,7 +204,8 @@ def _send_integration_webhook(settings, doc, method, integration_name):
 
         data = {
             "doctype": doc.doctype,
-            "name": doc.name
+            "name": doc.name,
+            "event": method
         }
 
         # Security: Add HMAC Signature if enabled
