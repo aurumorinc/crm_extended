@@ -155,8 +155,7 @@ doc_events = {
 scheduler_events = {
 	"cron": {
 		"* * * * *": [
-			"crm_extended.crm_extended.integrations.utils.process_apollo_queue",
-			"crm_extended.crm_extended.integrations.utils.process_teable_queue",
+			"crm_extended.crm_extended.integrations.utils.process_all_webhooks",
 			"crm_extended.crm_extended.doctype.google_mail.google_mail.sync"
 		]
 	}

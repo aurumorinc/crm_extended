@@ -1,0 +1,32 @@
+[
+ {
+  "dt": "Custom Field",
+  "filters": [
+   [
+    "module",
+    "=",
+    "CRM Extended"
+   ]
+  ]
+ },
+ {
+  "dt": "Property Setter",
+  "filters": [
+   [
+    "module",
+    "=",
+    "CRM Extended"
+   ]
+  ]
+ },
+ {
+  "dt": "Custom Field",
+  "filters": [
+   [
+    "dt",
+    "=",
+    "Webhook"
+   ]
+  ]
+ }
+]
