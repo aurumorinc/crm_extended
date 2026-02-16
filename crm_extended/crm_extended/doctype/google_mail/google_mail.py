@@ -257,8 +257,10 @@ def process_message(service, msg_id, lead_emails, user):
 		date_time = now_datetime()
 
 	# Check if any participant is a Lead
-	participants = set([sender] + recipients + cc)
-	matched_leads = participants.intersection(lead_emails)
+	# Normalize emails for comparison (lowercase)
+	participants = set([e.lower() for e in [sender] + recipients + cc if e])
+	lead_emails_lower = {e.lower() for e in lead_emails if e}
+	matched_leads = participants.intersection(lead_emails_lower)
 	
 	if not matched_leads:
 		return # Security Layer: Skip unrelated emails
@@ -280,12 +282,26 @@ def process_message(service, msg_id, lead_emails, user):
 	if frappe.db.exists("Communication", {"message_id": msg_id}) or (message_id and frappe.db.exists("Communication", {"message_id": message_id})):
 		return
 
-	# Find the lead ID
+	# Find the lead ID (case-insensitive match)
 	lead_email = list(matched_leads)[0]
 	lead_name = frappe.db.get_value("CRM Lead", {"email": lead_email}, "name")
 
+	# Fallback if case mismatch in DB query (though standard collation handles this usually)
+	if not lead_name:
+		lead_name = frappe.db.get_value("CRM Lead", filters={"email": ["like", lead_email]}, fieldname="name")
+
 	if not lead_name:
 		return
+
+	# Determine direction properly
+	# Use Gmail labels (if available) to determine SENT status more reliably
+	labels = message.get("labelIds", [])
+	if "SENT" in labels:
+		sent_or_received = "Sent"
+	else:
+		# Fallback: if sender is in matched_leads, it's "Received" (from Lead to Us).
+		# If sender is NOT in matched_leads, it's "Sent" (from Us/Someone to Lead).
+		sent_or_received = "Received" if sender.lower() in matched_leads else "Sent"
 
 	communication = frappe.get_doc({
 		"doctype": "Communication",
@@ -296,23 +312,13 @@ def process_message(service, msg_id, lead_emails, user):
 		"sender": sender,
 		"recipients": ", ".join(recipients),
 		"cc": ", ".join(cc),
-		"sent_or_received": "Received" if sender not in lead_emails else "Sent", # Logic needs refinement: if sender is the Google Mail user, it's Sent. If sender is Lead, it's Received.
+		"sent_or_received": sent_or_received,
 		"reference_doctype": "CRM Lead",
 		"reference_name": lead_name,
 		"message_id": message_id or msg_id,
 		"read_receipt": 1,
 		"communication_date": date_time
 	})
-	
-	# Determine direction properly
-	# We need the connected user's email addresses (including aliases if possible) to know if it's Sent or Received.
-	# For now, if sender is in matched_leads, it's likely Received from that Lead.
-	# If sender is NOT in matched_leads (meaning it's me or someone else), and one of the recipients IS a Lead, it's Sent.
-	
-	if sender in matched_leads:
-		communication.sent_or_received = "Received"
-	else:
-		communication.sent_or_received = "Sent"
 
 	communication.insert(ignore_permissions=True)
 
