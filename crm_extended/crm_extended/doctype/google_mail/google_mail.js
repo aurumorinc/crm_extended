@@ -35,8 +35,8 @@ frappe.ui.form.on('Google Mail', {
 			},
 			freeze: true,
 			callback: function(r) {
-				if(!r.exc) {
-					window.location.href = r.message;
+				if(!r.exc && r.message && r.message.url) {
+					window.location.href = r.message.url;
 				}
 			}
 		});
