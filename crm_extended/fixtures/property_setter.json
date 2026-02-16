@@ -1,14 +1,13 @@
 [
  {
   "doctype_or_field": "DocField",
+  "doc_type": "Notification",
   "field_name": "channel",
   "property": "options",
-  "property_type": "Text",
-  "row_name": null,
+  "property_type": "Select",
   "value": "Email\nSlack\nSystem Notification\nSMS\nntfy",
   "module": "CRM Extended",
   "name": "Notification-channel-options",
-  "doc_type": "Notification",
   "doctype": "Property Setter"
  },
  {
