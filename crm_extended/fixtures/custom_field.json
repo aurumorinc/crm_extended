@@ -138,7 +138,7 @@
   "label": "Phone",
   "module": "CRM Extended",
   "name": "CRM Organization-phone",
-  "doctype": "Custom Field"
+  "dt": "CRM Organization"
  },
  {
   "dt": "CRM Organization",
