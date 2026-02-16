@@ -198,9 +198,20 @@ def sync_emails(google_mail_name):
 		messages.extend(results.get("messages", []))
 
 	# Deduplicate
-	# Ensure m has "id" key to avoid KeyError if response format varies or is empty/malformed
-	message_ids = {m["id"] for m in messages if "id" in m}
-	
+	try:
+		# Ensure m has "id" key to avoid KeyError if response format varies or is empty/malformed
+		message_ids = {m["id"] for m in messages if "id" in m}
+	except Exception:
+		# If something unexpected happens during extraction (though set comprehension above is guarded),
+		# log the full messages structure to debug what Gmail API returned.
+		frappe.log_error(f"Gmail API Response Debug: {json.dumps(messages, default=str)}", "Google Mail Sync Debug")
+		raise
+
+	# Also log if we find items without ID even if we don't crash, just for visibility (optional but useful)
+	malformed_messages = [m for m in messages if "id" not in m]
+	if malformed_messages:
+		frappe.log_error(f"Gmail API Returned Malformed Messages (No ID): {json.dumps(malformed_messages, default=str)}", "Google Mail Sync Warning")
+
 	for msg_id in message_ids:
 		process_message(service, msg_id, lead_emails, google_mail.user)
 
