@@ -358,15 +358,18 @@ def get_all_lead_emails():
 @frappe.whitelist()
 def fetch_emails_for_lead(doc, method=None):
 	"""
-	Fetches historical emails for a specific lead.
+	Enqueues a background job to fetch historical emails for a specific lead.
 	Triggered on Lead creation/update.
 	"""
-	if isinstance(doc, str):
-		lead_name = doc
-		lead_email = frappe.db.get_value("CRM Lead", lead_name, "email")
-	else:
-		lead_name = doc.name
-		lead_email = doc.email
+	lead_name = doc.name if hasattr(doc, "name") else doc
+	frappe.enqueue(
+		"crm_extended.crm_extended.crm_extended.doctype.google_mail.google_mail.fetch_emails_for_lead_background",
+		queue="long",
+		lead_name=lead_name
+	)
+
+def fetch_emails_for_lead_background(lead_name):
+	lead_email = frappe.db.get_value("CRM Lead", lead_name, "email")
 
 	if not lead_email:
 		return
