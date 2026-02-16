@@ -49,6 +49,7 @@ def authorize_access(google_mail_name, reauthorize=False):
 	"""
 	google_settings = frappe.get_doc("Google Settings")
 <<<<<<< ours
+<<<<<<< ours
 	redirect_uri = get_url("/api/method/crm_extended.crm_extended.doctype.google_mail.google_mail.google_callback")
 ||||||| ancestor
 	redirect_uri = get_url("/api/method/frappe.integrations.google_oauth.callback")
@@ -57,10 +58,16 @@ def authorize_access(google_mail_name, reauthorize=False):
 	# Using the standard command-based callback URL pattern that user requested
 	redirect_uri = get_url(f"/?cmd=crm_extended.crm_extended.doctype.google_mail.google_mail.google_callback")
 >>>>>>> theirs
+||||||| ancestor
+	redirect_uri = get_url("/api/method/crm_extended.crm_extended.doctype.google_mail.google_mail.google_callback")
+=======
+	redirect_uri = get_url("/api/method/frappe.integrations.google_oauth.callback")
+>>>>>>> theirs
 
 	scope = "https://www.googleapis.com/auth/gmail.readonly"
 	state = {
 		"google_mail_name": google_mail_name,
+		"domain": "mail_extended"
 	}
 
 	params = {
@@ -79,19 +86,12 @@ def authorize_access(google_mail_name, reauthorize=False):
 	}
 
 @frappe.whitelist()
-def google_callback(code=None, state=None):
+def google_callback(code=None, state=None, google_mail_name=None):
 	"""
 	Handles the callback from Google OAuth.
 	"""
-	if not code or not state:
-		frappe.throw(frappe._("Authorization code or state missing."))
-
-	try:
-		state_dict = json.loads(state)
-	except Exception:
-		frappe.throw(frappe._("Invalid state."))
-
-	google_mail_name = state_dict.get("google_mail_name")
+	# state will be None as we unpack it before calling this method in google_oauth.callback
+	
 	if not google_mail_name:
 		frappe.throw(frappe._("Invalid state."))
 
@@ -99,12 +99,18 @@ def google_callback(code=None, state=None):
 	google_settings = frappe.get_doc("Google Settings")
 
 <<<<<<< ours
+<<<<<<< ours
 	redirect_uri = get_url("/api/method/crm_extended.crm_extended.doctype.google_mail.google_mail.google_callback")
 ||||||| ancestor
 	redirect_uri = get_url("/api/method/frappe.integrations.google_oauth.callback")
 =======
 	# Match the redirect_uri used in authorize_access
 	redirect_uri = get_url(f"/?cmd=crm_extended.crm_extended.doctype.google_mail.google_mail.google_callback")
+>>>>>>> theirs
+||||||| ancestor
+	redirect_uri = get_url("/api/method/crm_extended.crm_extended.doctype.google_mail.google_mail.google_callback")
+=======
+	redirect_uri = get_url("/api/method/frappe.integrations.google_oauth.callback")
 >>>>>>> theirs
 
 	data = {
@@ -235,6 +241,7 @@ def process_message(service, msg_id, lead_emails, user):
 	
 	sender = ""
 	recipients = []
+	cc = []
 	subject = ""
 	date_time = ""
 	message_id = ""
@@ -247,7 +254,7 @@ def process_message(service, msg_id, lead_emails, user):
 		elif name == "to":
 			recipients.extend([parseaddr(x)[1] for x in value.split(",")])
 		elif name == "cc":
-			recipients.extend([parseaddr(x)[1] for x in value.split(",")])
+			cc.extend([parseaddr(x)[1] for x in value.split(",")])
 		elif name == "subject":
 			subject = value
 		elif name == "received" and not date_time:
@@ -269,7 +276,7 @@ def process_message(service, msg_id, lead_emails, user):
 		date_time = now_datetime()
 
 	# Check if any participant is a Lead
-	participants = set([sender] + recipients)
+	participants = set([sender] + recipients + cc)
 	matched_leads = participants.intersection(lead_emails)
 	
 	if not matched_leads:
@@ -307,6 +314,7 @@ def process_message(service, msg_id, lead_emails, user):
 		"content": content,
 		"sender": sender,
 		"recipients": ", ".join(recipients),
+		"cc": ", ".join(cc),
 		"sent_or_received": "Received" if sender not in lead_emails else "Sent", # Logic needs refinement: if sender is the Google Mail user, it's Sent. If sender is Lead, it's Received.
 		"reference_doctype": "CRM Lead",
 		"reference_name": lead_name,

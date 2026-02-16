@@ -16,13 +16,17 @@ def process_all_webhooks():
     if not frappe.db.has_column("Webhook", "enable_rate_limit"):
         return
 
-    webhooks = frappe.get_all("Webhook", 
-        filters={"enabled": 1, "enable_rate_limit": 1}, 
+    webhooks = frappe.get_all("Webhook",
+        filters={"enabled": 1, "enable_rate_limit": 1},
         fields=["name"]
     )
     
     for webhook_data in webhooks:
         process_webhook_queue(webhook_data.name)
+
+def authorize_google_access(google_mail_name=None, code=None, **kwargs):
+	from crm_extended.crm_extended.doctype.google_mail.google_mail import google_callback
+	google_callback(code=code, google_mail_name=google_mail_name)
 
 def process_webhook_queue(webhook_name):
     """
