@@ -258,7 +258,6 @@ def process_message(service, msg_id, lead_emails, user):
 		date_time = now_datetime()
 	else:
 		# Convert timezone-aware datetime to naive UTC or system timezone as expected by Frappe
-		from frappe.utils import convert_utc_to_user_timezone
 		if date_time.tzinfo:
 			date_time = date_time.astimezone(None).replace(tzinfo=None) # Convert to local system time, then remove tzinfo
 
