@@ -49,5 +49,29 @@
   "module": "CRM Extended",
   "name": "Google Calendar-google_calendar_id-read_only",
   "doctype": "Property Setter"
+ },
+ {
+  "doctype_or_field": "DocField",
+  "field_name": "subject",
+  "property": "depends_on",
+  "property_type": "Data",
+  "row_name": null,
+  "value": "eval: in_list(['Email', 'Slack', 'System Notification', 'ntfy'], doc.channel)",
+  "module": "CRM Extended",
+  "name": "Notification-subject-depends_on",
+  "doc_type": "Notification",
+  "doctype": "Property Setter"
+ },
+ {
+  "doctype_or_field": "DocField",
+  "field_name": "subject",
+  "property": "mandatory_depends_on",
+  "property_type": "Data",
+  "row_name": null,
+  "value": "eval: in_list(['Email', 'Slack', 'System Notification', 'ntfy'], doc.channel)",
+  "module": "CRM Extended",
+  "name": "Notification-subject-mandatory_depends_on",
+  "doc_type": "Notification",
+  "doctype": "Property Setter"
  }
 ]
