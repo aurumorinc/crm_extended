@@ -1,5 +1,15 @@
 [
  {
+  "dt": "Notification",
+  "fieldname": "ntfy_topic",
+  "fieldtype": "Link",
+  "insert_after": "slack_webhook_url",
+  "label": "ntfy Topic",
+  "options": "ntfy Topic",
+  "depends_on": "eval:doc.channel=='ntfy'",
+  "module": "CRM Extended"
+ },
+ {
   "dt": "CRM Lead",
   "fieldname": "social_media_tab",
   "fieldtype": "Tab Break",

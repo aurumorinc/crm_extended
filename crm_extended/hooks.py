@@ -167,6 +167,10 @@ scheduler_events = {
 # 	"Task": "crm_extended.custom.task.CustomTaskMixin"
 # }
 
+override_doctype_class = {
+	"Notification": "crm_extended.crm_extended.patches.notification.NtfyNotification"
+}
+
 # Overriding Methods
 # ------------------------------
 #
