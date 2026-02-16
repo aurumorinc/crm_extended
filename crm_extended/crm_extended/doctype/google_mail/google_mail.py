@@ -48,7 +48,15 @@ def authorize_access(google_mail_name, reauthorize=False):
 	Generates the authorization URL for Google OAuth.
 	"""
 	google_settings = frappe.get_doc("Google Settings")
+<<<<<<< ours
 	redirect_uri = get_url("/api/method/crm_extended.crm_extended.doctype.google_mail.google_mail.google_callback")
+||||||| ancestor
+	redirect_uri = get_url("/api/method/frappe.integrations.google_oauth.callback")
+=======
+	
+	# Using the standard command-based callback URL pattern that user requested
+	redirect_uri = get_url(f"/?cmd=crm_extended.crm_extended.doctype.google_mail.google_mail.google_callback")
+>>>>>>> theirs
 
 	scope = "https://www.googleapis.com/auth/gmail.readonly"
 	state = {
@@ -90,7 +98,14 @@ def google_callback(code=None, state=None):
 	google_mail = frappe.get_doc("Google Mail", google_mail_name)
 	google_settings = frappe.get_doc("Google Settings")
 
+<<<<<<< ours
 	redirect_uri = get_url("/api/method/crm_extended.crm_extended.doctype.google_mail.google_mail.google_callback")
+||||||| ancestor
+	redirect_uri = get_url("/api/method/frappe.integrations.google_oauth.callback")
+=======
+	# Match the redirect_uri used in authorize_access
+	redirect_uri = get_url(f"/?cmd=crm_extended.crm_extended.doctype.google_mail.google_mail.google_callback")
+>>>>>>> theirs
 
 	data = {
 		"code": code,
@@ -117,10 +132,8 @@ def google_callback(code=None, state=None):
 
 	frappe.db.commit()
 
-	return {
-		"message": frappe._("Authorization Successful"),
-		"redirect_to": f"/app/google-mail/{google_mail_name}"
-	}
+	frappe.local.response["type"] = "redirect"
+	frappe.local.response["location"] = f"/app/google-mail/{google_mail_name}"
 
 @frappe.whitelist()
 def sync():
