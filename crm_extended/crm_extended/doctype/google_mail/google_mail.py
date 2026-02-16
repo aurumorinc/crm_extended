@@ -198,7 +198,8 @@ def sync_emails(google_mail_name):
 		messages.extend(results.get("messages", []))
 
 	# Deduplicate
-	message_ids = {m["id"] for m in messages}
+	# Ensure m has "id" key to avoid KeyError if response format varies or is empty/malformed
+	message_ids = {m["id"] for m in messages if "id" in m}
 	
 	for msg_id in message_ids:
 		process_message(service, msg_id, lead_emails, google_mail.user)
