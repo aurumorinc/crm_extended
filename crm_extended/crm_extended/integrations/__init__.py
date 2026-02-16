@@ -9,10 +9,16 @@ from crm_extended.crm_extended.integrations.utils import has_value_changed_excep
 
 _original_enqueue = webhook.enqueue_webhook
 
-def custom_enqueue_webhook(doc, webhook_doc):
-    # Ensure we have the full document object
-    if not isinstance(webhook_doc, frappe.model.document.Document):
-        webhook_doc = frappe.get_doc("Webhook", webhook_doc.get("name"))
+def custom_enqueue_webhook(doc, webhook):
+    # 'webhook' arg from frappe is a dict when queued, or a Document when called directly?
+    # In execute_job trace, kwargs={'webhook': {'name': ...}} which is a dict.
+    
+    webhook_doc = webhook
+    # Ensure we have the full document object if it's a dict or string
+    if isinstance(webhook, dict):
+        webhook_doc = frappe.get_doc("Webhook", webhook.get("name"))
+    elif isinstance(webhook, str):
+        webhook_doc = frappe.get_doc("Webhook", webhook)
 
     # Check for custom rate limit flag
     # We use .get() safely in case the field doesn't exist yet during migration
@@ -38,11 +44,11 @@ def custom_enqueue_webhook(doc, webhook_doc):
             
         except Exception as e:
             frappe.log_error(f"Failed to enqueue rate-limited webhook {webhook_doc.name}: {str(e)}", "Webhook Queue Error")
-            # If queuing fails, maybe fall back to standard execution? 
+            # If queuing fails, maybe fall back to standard execution?
             # For now, let's fail safe and log.
 
     # If no rate limit, proceed with standard Frappe behavior
-    return _original_enqueue(doc, webhook_doc)
+    return _original_enqueue(doc, webhook)
 
 webhook.enqueue_webhook = custom_enqueue_webhook
 
