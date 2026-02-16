@@ -176,7 +176,6 @@ def send_webhook_request(url, request_method, headers, data, integration_name=No
                 elif 'application/x-www-form-urlencoded' in ct:
                     is_json = False
                 else:
-                    # Default behavior if no header
                     is_json = isinstance(data, (dict, list))
             else:
                  is_json = isinstance(data, (dict, list))
@@ -196,49 +195,32 @@ def send_webhook_request(url, request_method, headers, data, integration_name=No
             )
             
             response.raise_for_status()
-            
-            # If successful, break the retry loop
             return
 
         except Exception as e:
             if attempt < max_retries - 1:
-                # Log warning and retry
                 frappe.logger().warning(f"Webhook Attempt {attempt + 1} Failed ({integration_name}): {str(e)}. Retrying in {retry_delay}s...")
-                time.sleep(retry_delay * (attempt + 1)) # Linear backoff
+                time.sleep(retry_delay * (attempt + 1)) 
             else:
-                # Final failure log
                 frappe.log_error(f"Webhook Failed ({integration_name}) after {max_retries} attempts: {str(e)}\nURL: {url}", "Webhook Error")
-                # Ideally, we could raise here to let Redis Queue mark job as failed, 
-                # but frappe.enqueue handles exceptions by logging them anyway.
                 raise e
 
 def has_value_changed_except(doc, ignore_fields):
     """
     Check if the document has changed, ignoring the specified fields.
-    
-    Args:
-        doc (Document): The document to check.
-        ignore_fields (list or str): A list or comma-separated string of fields to ignore.
-        
-    Returns:
-        bool: True if the document has changed (excluding ignored fields), False otherwise.
     """
     if doc.is_new():
         return True
 
     doc_before_save = doc.get_doc_before_save()
     if not doc_before_save:
-        # Should ideally be available on_update, but fallback
         return True
 
     if isinstance(ignore_fields, str):
-        # Handle comma-separated string, stripping whitespace
         ignore_fields = [f.strip() for f in ignore_fields.split(",") if f.strip()]
     elif not isinstance(ignore_fields, list):
-         # Default to empty list if None or invalid type to prevent errors
          ignore_fields = []
 
-    # Get all fields that have changed
     for field in doc.meta.fields:
         fieldname = field.fieldname
         if fieldname in ignore_fields:
