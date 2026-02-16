@@ -3,13 +3,13 @@
 
 import frappe
 from frappe.model.document import Document
-from frappe.integrations.doctype.google_settings.google_settings import get_auth_url
-from frappe.integrations.google_oauth import GoogleOAuth
 from frappe.utils import get_url, now_datetime
 from googleapiclient.discovery import build
 from google.oauth2.credentials import Credentials
 import requests
 import base64
+import json
+from urllib.parse import urlencode
 from email.utils import parseaddr, parsedate_to_datetime
 
 SCOPES = ["https://www.googleapis.com/auth/gmail.readonly"]
@@ -47,14 +47,28 @@ def authorize_access(google_mail_name, reauthorize=False):
 	"""
 	Generates the authorization URL for Google OAuth.
 	"""
-	oauth2 = frappe.utils.oauth.OAuth2(
-		"Google Settings",
-		scopes="https://www.googleapis.com/auth/gmail.readonly",
-		redirect_uri=get_url("/api/method/crm_extended.crm_extended.doctype.google_mail.google_mail.google_callback"),
-		state={"google_mail_name": google_mail_name}
-	)
-	
-	return oauth2.get_auth_url()
+	google_settings = frappe.get_doc("Google Settings")
+	redirect_uri = get_url("/api/method/crm_extended.crm_extended.doctype.google_mail.google_mail.google_callback")
+
+	scope = "https://www.googleapis.com/auth/gmail.readonly"
+	state = {
+		"google_mail_name": google_mail_name,
+	}
+
+	params = {
+		"access_type": "offline",
+		"response_type": "code",
+		"prompt": "consent",
+		"include_granted_scopes": "true",
+		"client_id": google_settings.client_id,
+		"scope": scope,
+		"redirect_uri": redirect_uri,
+		"state": json.dumps(state)
+	}
+
+	return {
+		"url": "https://accounts.google.com/o/oauth2/v2/auth?" + urlencode(params)
+	}
 
 @frappe.whitelist()
 def google_callback(code=None, state=None):
@@ -64,29 +78,45 @@ def google_callback(code=None, state=None):
 	if not code or not state:
 		frappe.throw(frappe._("Authorization code or state missing."))
 
-	google_mail_name = state.get("google_mail_name")
+	try:
+		state_dict = json.loads(state)
+	except Exception:
+		frappe.throw(frappe._("Invalid state."))
+
+	google_mail_name = state_dict.get("google_mail_name")
 	if not google_mail_name:
 		frappe.throw(frappe._("Invalid state."))
 
 	google_mail = frappe.get_doc("Google Mail", google_mail_name)
-	
-	oauth2 = frappe.utils.oauth.OAuth2(
-		"Google Settings",
-		scopes="https://www.googleapis.com/auth/gmail.readonly",
-		redirect_uri=get_url("/api/method/crm_extended.crm_extended.doctype.google_mail.google_mail.google_callback"),
-	)
-	
-	token = oauth2.get_access_token(code)
-	
-	if not token.get("refresh_token"):
+	google_settings = frappe.get_doc("Google Settings")
+
+	redirect_uri = get_url("/api/method/crm_extended.crm_extended.doctype.google_mail.google_mail.google_callback")
+
+	data = {
+		"code": code,
+		"client_id": google_settings.client_id,
+		"client_secret": google_settings.get_password(fieldname="client_secret"),
+		"grant_type": "authorization_code",
+		"redirect_uri": redirect_uri
+	}
+
+	try:
+		r = requests.post("https://oauth2.googleapis.com/token", data=data).json()
+	except Exception as e:
+		frappe.throw(frappe._("Error during access token generation: {0}").format(str(e)))
+
+	if "error" in r:
+		frappe.throw(frappe._("Error during access token generation: {0}").format(r.get("error_description")))
+
+	if not r.get("refresh_token"):
 		frappe.throw(frappe._("Refresh token not found. Please revoke access from Google Account settings and try again."))
-	
+
 	google_mail.authorization_code = code
-	google_mail.refresh_token = token.get("refresh_token")
+	google_mail.refresh_token = r.get("refresh_token")
 	google_mail.save()
-	
+
 	frappe.db.commit()
-	
+
 	return {
 		"message": frappe._("Authorization Successful"),
 		"redirect_to": f"/app/google-mail/{google_mail_name}"
