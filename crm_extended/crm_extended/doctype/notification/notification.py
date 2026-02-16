@@ -30,6 +30,12 @@ class NtfyNotification(Notification):
 			if ntfy_topic_doc.auth_header:
 				headers["Authorization"] = ntfy_topic_doc.get_password("auth_header")
 			
+			if self.click_url:
+				click_url = self.click_url
+				if "{" in click_url:
+					click_url = frappe.render_template(self.click_url, context)
+				headers["Click"] = click_url.encode('utf-8')
+
 			url = f"{ntfy_topic_doc.service_url}/{ntfy_topic_doc.topic_name}"
 			
 			response = requests.post(

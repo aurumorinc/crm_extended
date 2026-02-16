@@ -7,7 +7,19 @@
   "label": "ntfy Topic",
   "options": "ntfy Topic",
   "depends_on": "eval:doc.channel=='ntfy'",
-  "module": "CRM Extended"
+  "module": "CRM Extended",
+  "doctype": "Custom Field"
+ },
+ {
+  "dt": "Notification",
+  "fieldname": "click_url",
+  "fieldtype": "Data",
+  "insert_after": "ntfy_topic",
+  "label": "Click URL",
+  "description": "URL to open when the notification is clicked. Supports jinja (e.g., /app/crm-lead/{{ doc.name }}).",
+  "depends_on": "eval:doc.channel=='ntfy'",
+  "module": "CRM Extended",
+  "doctype": "Custom Field"
  },
  {
   "dt": "CRM Lead",
@@ -138,7 +150,7 @@
   "label": "Phone",
   "module": "CRM Extended",
   "name": "CRM Organization-phone",
-  "dt": "CRM Organization"
+  "doctype": "Custom Field"
  },
  {
   "dt": "CRM Organization",
