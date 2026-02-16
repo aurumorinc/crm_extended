@@ -48,42 +48,11 @@ def authorize_access(google_mail_name, reauthorize=False):
 	Generates the authorization URL for Google OAuth.
 	"""
 	google_settings = frappe.get_doc("Google Settings")
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
-||||||| ancestor
-<<<<<<< ours
-=======
->>>>>>> theirs
 	redirect_uri = get_url("/api/method/crm_extended.crm_extended.doctype.google_mail.google_mail.google_callback")
-<<<<<<< ours
-||||||| ancestor
-	redirect_uri = get_url("/api/method/frappe.integrations.google_oauth.callback")
-=======
-	
-	# Using the standard command-based callback URL pattern that user requested
-	redirect_uri = get_url(f"/?cmd=crm_extended.crm_extended.doctype.google_mail.google_mail.google_callback")
->>>>>>> theirs
-||||||| ancestor
-	redirect_uri = get_url("/api/method/crm_extended.crm_extended.doctype.google_mail.google_mail.google_callback")
-=======
-	redirect_uri = get_url("/api/method/frappe.integrations.google_oauth.callback")
->>>>>>> theirs
-||||||| ancestor
-||||||| ancestor
-	redirect_uri = get_url("/api/method/frappe.integrations.google_oauth.callback")
-=======
-	
-	# Using the standard command-based callback URL pattern that user requested
-	redirect_uri = get_url(f"/?cmd=crm_extended.crm_extended.doctype.google_mail.google_mail.google_callback")
->>>>>>> theirs
-=======
->>>>>>> theirs
 
 	scope = "https://www.googleapis.com/auth/gmail.readonly"
 	state = {
 		"google_mail_name": google_mail_name,
-		"domain": "mail_extended"
 	}
 
 	params = {
@@ -102,47 +71,26 @@ def authorize_access(google_mail_name, reauthorize=False):
 	}
 
 @frappe.whitelist()
-def google_callback(code=None, state=None, google_mail_name=None):
+def google_callback(code=None, state=None):
 	"""
 	Handles the callback from Google OAuth.
 	"""
-	# state will be None as we unpack it before calling this method in google_oauth.callback
-	
+	if not code or not state:
+		frappe.throw(frappe._("Authorization code or state missing."))
+
+	try:
+		state_dict = json.loads(state)
+	except Exception:
+		frappe.throw(frappe._("Invalid state."))
+
+	google_mail_name = state_dict.get("google_mail_name")
 	if not google_mail_name:
 		frappe.throw(frappe._("Invalid state."))
 
 	google_mail = frappe.get_doc("Google Mail", google_mail_name)
 	google_settings = frappe.get_doc("Google Settings")
 
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
-||||||| ancestor
-<<<<<<< ours
-=======
->>>>>>> theirs
 	redirect_uri = get_url("/api/method/crm_extended.crm_extended.doctype.google_mail.google_mail.google_callback")
-<<<<<<< ours
-||||||| ancestor
-	redirect_uri = get_url("/api/method/frappe.integrations.google_oauth.callback")
-=======
-	# Match the redirect_uri used in authorize_access
-	redirect_uri = get_url(f"/?cmd=crm_extended.crm_extended.doctype.google_mail.google_mail.google_callback")
->>>>>>> theirs
-||||||| ancestor
-	redirect_uri = get_url("/api/method/crm_extended.crm_extended.doctype.google_mail.google_mail.google_callback")
-=======
-	redirect_uri = get_url("/api/method/frappe.integrations.google_oauth.callback")
->>>>>>> theirs
-||||||| ancestor
-||||||| ancestor
-	redirect_uri = get_url("/api/method/frappe.integrations.google_oauth.callback")
-=======
-	# Match the redirect_uri used in authorize_access
-	redirect_uri = get_url(f"/?cmd=crm_extended.crm_extended.doctype.google_mail.google_mail.google_callback")
->>>>>>> theirs
-=======
->>>>>>> theirs
 
 	data = {
 		"code": code,
