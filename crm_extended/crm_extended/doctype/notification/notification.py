@@ -11,7 +11,7 @@ class NtfyNotification(Notification):
 				"crm_extended.crm_extended.crm_extended.doctype.notification.notification.send_ntfy_message",
 				queue="short",
 				doctype=doc.doctype,
-				docname=doc.name,
+				name=doc.name,
 				ntfy_topic=self.ntfy_topic,
 				subject=self.subject,
 				message=self.message,
@@ -20,7 +20,7 @@ class NtfyNotification(Notification):
 		else:
 			super().send_notification_by_channel(doc, context)
 
-def send_ntfy_message(doctype, docname, ntfy_topic, subject, message, click_url=None):
+def send_ntfy_message(doctype, name, ntfy_topic, subject, message, click_url=None):
 	"""
 	Background job to send ntfy notifications.
 	"""
@@ -29,7 +29,7 @@ def send_ntfy_message(doctype, docname, ntfy_topic, subject, message, click_url=
 
 	try:
 		# Re-fetch document and context to ensure freshness and avoid pickling issues
-		doc = frappe.get_doc(doctype, docname)
+		doc = frappe.get_doc(doctype, name)
 		context = get_context(doc)
 
 		ntfy_topic_doc = frappe.get_doc("ntfy Topic", ntfy_topic)
