@@ -59,8 +59,12 @@ def custom_get_context(doc):
     context['has_value_changed_except'] = has_value_changed_except
     
     # Add helper to document instance for cleaner syntax: doc.has_value_changed_except(...)
-    if doc:
-        doc.has_value_changed_except = lambda ignore_fields: has_value_changed_except(doc, ignore_fields)
+    # NOTE: Do NOT attach a lambda to the doc object, as it makes the doc unpickleable for background jobs.
+    # Instead, we just rely on the context function or a proper bound method if absolutely needed.
+    # For now, we only provide it in the context. Users should use has_value_changed_except(doc, ...) in condition field.
+    
+    # If we really need doc.has_value_changed_except(...), we can't use lambda.
+    # But since this doc is being passed to enqueue -> pickle, we should avoid modifying it with runtime callables.
         
     return context
 

@@ -6,11 +6,12 @@ import requests
 class NtfyNotification(Notification):
 	def send_notification_by_channel(self, doc, context):
 		if self.channel == "ntfy":
+			# Pass strings/scalars only to avoid pickling errors with Document objects
 			frappe.enqueue(
 				"crm_extended.crm_extended.crm_extended.doctype.notification.notification.send_ntfy_message",
 				queue="short",
-				doc=doc,
-				context=context,
+				doctype=doc.doctype,
+				docname=doc.name,
 				ntfy_topic=self.ntfy_topic,
 				subject=self.subject,
 				message=self.message,
@@ -19,7 +20,7 @@ class NtfyNotification(Notification):
 		else:
 			super().send_notification_by_channel(doc, context)
 
-def send_ntfy_message(doc, context, ntfy_topic, subject, message, click_url=None):
+def send_ntfy_message(doctype, docname, ntfy_topic, subject, message, click_url=None):
 	"""
 	Background job to send ntfy notifications.
 	"""
@@ -27,11 +28,10 @@ def send_ntfy_message(doc, context, ntfy_topic, subject, message, click_url=None
 		return
 
 	try:
-		# context might be a dict or json string if queued?
-		# frappe.enqueue handles basic types. doc is a dict-like or Document object.
-		# But 'doc' passed to enqueue might lose some methods if it's just a dict.
-		# However, render_template expects context.
-		
+		# Re-fetch document and context to ensure freshness and avoid pickling issues
+		doc = frappe.get_doc(doctype, docname)
+		context = get_context(doc)
+
 		ntfy_topic_doc = frappe.get_doc("ntfy Topic", ntfy_topic)
 		
 		if subject and "{" in subject:
