@@ -8,6 +8,7 @@
   "options": "ntfy Topic",
   "depends_on": "eval:doc.channel=='ntfy'",
   "module": "CRM Extended",
+  "name": "Notification-ntfy_topic",
   "doctype": "Custom Field"
  },
  {
@@ -19,6 +20,7 @@
   "description": "URL to open when the notification is clicked. Supports jinja (e.g., /app/crm-lead/{{ doc.name }}).",
   "depends_on": "eval:doc.channel=='ntfy'",
   "module": "CRM Extended",
+  "name": "Notification-click_url",
   "doctype": "Custom Field"
  },
  {
