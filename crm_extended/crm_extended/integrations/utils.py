@@ -130,6 +130,10 @@ def send_standard_webhook(webhook, doc, method):
     Prepares and sends a standard Webhook using frappe's logic but inside our worker.
     """
     try:
+        # Inject the event into the document context temporarily so Jinja can access it as {{ doc.event }}
+        # We attach it to the doc instance itself as 'event'
+        doc.event = method
+
         # Recalculate context-dependent values
         request_url = webhook.request_url
         if webhook.is_dynamic_url:
