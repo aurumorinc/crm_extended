@@ -168,7 +168,7 @@ scheduler_events = {
 # }
 
 override_doctype_class = {
-	"Notification": "crm_extended.crm_extended.patches.notification.NtfyNotification"
+	"Notification": "crm_extended.crm_extended.crm_extended.doctype.notification.notification.NtfyNotification"
 }
 
 # Overriding Methods
