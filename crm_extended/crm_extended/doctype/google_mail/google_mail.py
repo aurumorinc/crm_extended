@@ -22,9 +22,9 @@ class GoogleMail(Document):
 	def get_access_token(self):
 		if not self.refresh_token:
 			frappe.throw(frappe._("Google Mail is not authorized. Please authorize access first."))
-		
-		google_settings = frappe.get_doc("Google Settings")
-		
+
+		google_settings = frappe.get_cached_doc("Google Settings")
+
 		data = {
 			"client_id": google_settings.client_id,
 			"client_secret": google_settings.get_password(fieldname="client_secret"),
@@ -47,7 +47,7 @@ def authorize_access(google_mail_name, reauthorize=False):
 	"""
 	Generates the authorization URL for Google OAuth.
 	"""
-	google_settings = frappe.get_doc("Google Settings")
+	google_settings = frappe.get_cached_doc("Google Settings")
 	redirect_uri = get_url("/api/method/crm_extended.crm_extended.doctype.google_mail.google_mail.google_callback")
 
 	scope = "https://www.googleapis.com/auth/gmail.readonly"
@@ -88,7 +88,7 @@ def google_callback(code=None, state=None):
 		frappe.throw(frappe._("Invalid state."))
 
 	google_mail = frappe.get_doc("Google Mail", google_mail_name)
-	google_settings = frappe.get_doc("Google Settings")
+	google_settings = frappe.get_cached_doc("Google Settings")
 
 	redirect_uri = get_url("/api/method/crm_extended.crm_extended.doctype.google_mail.google_mail.google_callback")
 
@@ -113,14 +113,15 @@ def google_callback(code=None, state=None):
 
 	google_mail.authorization_code = code
 	google_mail.refresh_token = r.get("refresh_token")
+	google_mail.enable = 1
 	google_mail.save()
 
 	frappe.db.commit()
 
-	return {
-		"message": frappe._("Authorization Successful"),
-		"redirect_to": f"/app/google-mail/{google_mail_name}"
-	}
+	frappe.msgprint(frappe._("Google Mail has been configured."), indicator="green")
+
+	frappe.local.response["type"] = "redirect"
+	frappe.local.response["location"] = f"/app/google-mail/{google_mail_name}"
 
 @frappe.whitelist()
 def sync():
@@ -138,7 +139,7 @@ def get_google_mail_object(google_mail_name):
 	"""
 	Returns a built Google Gmail service object.
 	"""
-	google_settings = frappe.get_doc("Google Settings")
+	google_settings = frappe.get_cached_doc("Google Settings")
 	google_mail = frappe.get_doc("Google Mail", google_mail_name)
 	access_token = google_mail.get_access_token()
 	
@@ -166,7 +167,7 @@ def sync_emails(google_mail_name):
 	if not lead_emails:
 		return
 
-	history_id = google_mail.get_password("next_sync_token")
+	history_id = google_mail.get_password("next_sync_token", raise_exception=False)
 	
 	if not history_id:
 		# First run or reset: fetch recent messages (e.g., last 30 days) or full sync?
