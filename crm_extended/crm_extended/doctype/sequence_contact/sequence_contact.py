@@ -87,3 +87,8 @@ def update_sequence_apollo_ref_code(doc, method):
 			"sequence_apollo_ref_code",
 			doc.apollo_ref_code,
 		)
+		# Trigger update for Sequence Email
+		contact_doc = frappe.get_doc("Sequence Contact", sequence_contact.name)
+		contact_doc.sequence_apollo_ref_code = doc.apollo_ref_code
+		# This will trigger the hook for Sequence Contact -> Sequence Email
+		contact_doc.save()
