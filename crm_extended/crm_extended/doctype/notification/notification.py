@@ -8,7 +8,7 @@ class NtfyNotification(Notification):
 		if self.channel == "ntfy":
 			# Pass strings/scalars only to avoid pickling errors with Document objects
 			frappe.enqueue(
-				"crm_extended.crm_extended.crm_extended.doctype.notification.notification.send_ntfy_message",
+				"crm_extended.crm_extended.doctype.notification.notification.send_ntfy_message",
 				queue="short",
 				doctype=doc.doctype,
 				name=doc.name,
