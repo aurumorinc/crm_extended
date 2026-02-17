@@ -21,7 +21,16 @@ class SequenceContact(Document):
 	# end: auto-generated types
 
 	def validate(self):
+		self.set_apollo_ref_code()
 		self.check_duplicate()
+
+	def set_apollo_ref_code(self):
+		if self.reference_doctype == "CRM Lead" and self.reference_name:
+			self.reference_apollo_ref_code = frappe.db.get_value("CRM Lead", self.reference_name, "apollo_ref_code")
+
+	def onload(self):
+		if self.reference_doctype == "CRM Lead" and self.reference_name:
+			self.reference_apollo_ref_code = frappe.db.get_value("CRM Lead", self.reference_name, "apollo_ref_code")
 
 	def check_duplicate(self):
 		if not (self.sequence and self.reference_doctype and self.reference_name):
@@ -46,3 +55,17 @@ class SequenceContact(Document):
 				),
 				title=_("Duplicate Entry"),
 			)
+
+def update_apollo_ref_code(doc, method):
+	sequence_contacts = frappe.get_all(
+		"Sequence Contact",
+		filters={"reference_doctype": "CRM Lead", "reference_name": doc.name},
+	)
+
+	for sequence_contact in sequence_contacts:
+		frappe.db.set_value(
+			"Sequence Contact",
+			sequence_contact.name,
+			"reference_apollo_ref_code",
+			doc.apollo_ref_code,
+		)
