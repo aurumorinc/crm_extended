@@ -27,10 +27,14 @@ class SequenceContact(Document):
 	def set_apollo_ref_code(self):
 		if self.reference_doctype == "CRM Lead" and self.reference_name:
 			self.reference_apollo_ref_code = frappe.db.get_value("CRM Lead", self.reference_name, "apollo_ref_code")
+		if self.sequence:
+			self.sequence_apollo_ref_code = frappe.db.get_value("Sequence", self.sequence, "apollo_ref_code")
 
 	def onload(self):
 		if self.reference_doctype == "CRM Lead" and self.reference_name:
 			self.reference_apollo_ref_code = frappe.db.get_value("CRM Lead", self.reference_name, "apollo_ref_code")
+		if self.sequence:
+			self.sequence_apollo_ref_code = frappe.db.get_value("Sequence", self.sequence, "apollo_ref_code")
 
 	def check_duplicate(self):
 		if not (self.sequence and self.reference_doctype and self.reference_name):
@@ -67,5 +71,19 @@ def update_apollo_ref_code(doc, method):
 			"Sequence Contact",
 			sequence_contact.name,
 			"reference_apollo_ref_code",
+			doc.apollo_ref_code,
+		)
+
+def update_sequence_apollo_ref_code(doc, method):
+	sequence_contacts = frappe.get_all(
+		"Sequence Contact",
+		filters={"sequence": doc.name},
+	)
+
+	for sequence_contact in sequence_contacts:
+		frappe.db.set_value(
+			"Sequence Contact",
+			sequence_contact.name,
+			"sequence_apollo_ref_code",
 			doc.apollo_ref_code,
 		)

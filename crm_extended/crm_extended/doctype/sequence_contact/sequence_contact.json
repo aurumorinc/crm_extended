@@ -10,6 +10,7 @@
     "reference_name",
     "reference_apollo_ref_code",
     "sequence",
+    "sequence_apollo_ref_code",
     "communication_status",
     "status"
   ],
@@ -30,8 +31,13 @@
       "fieldname": "reference_apollo_ref_code",
       "fieldtype": "Data",
       "label": "Reference Apollo Ref Code",
-      "read_only": 1,
-      "hidden": 1
+      "read_only": 1
+    },
+    {
+      "fieldname": "sequence_apollo_ref_code",
+      "fieldtype": "Data",
+      "label": "Sequence Apollo Ref Code",
+      "read_only": 1
     },
     {
       "fieldname": "sequence",

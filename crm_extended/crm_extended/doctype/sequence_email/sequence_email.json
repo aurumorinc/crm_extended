@@ -9,6 +9,7 @@
   "sequence_contact",
   "reference_name",
   "reference_apollo_ref_code",
+  "sequence_apollo_ref_code",
   "step",
   "test",
   "subject",
@@ -36,8 +37,14 @@
    "fieldname": "reference_apollo_ref_code",
    "fieldtype": "Data",
    "label": "Reference Apollo Ref Code",
-   "read_only": 1,
-   "hidden": 1
+   "read_only": 1
+  },
+  {
+   "fetch_from": "sequence_contact.sequence_apollo_ref_code",
+   "fieldname": "sequence_apollo_ref_code",
+   "fieldtype": "Data",
+   "label": "Sequence Apollo Ref Code",
+   "read_only": 1
   },
   {
    "fieldname": "step",
