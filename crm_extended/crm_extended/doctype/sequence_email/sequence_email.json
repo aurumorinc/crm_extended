@@ -8,6 +8,7 @@
  "field_order": [
   "sequence_contact",
   "reference_name",
+  "reference_apollo_ref_code",
   "step",
   "test",
   "subject",
@@ -29,6 +30,14 @@
    "label": "Reference Name",
    "options": "CRM Lead",
    "read_only": 1
+  },
+  {
+   "fetch_from": "sequence_contact.reference_apollo_ref_code",
+   "fieldname": "reference_apollo_ref_code",
+   "fieldtype": "Data",
+   "label": "Reference Apollo Ref Code",
+   "read_only": 1,
+   "hidden": 1
   },
   {
    "fieldname": "step",

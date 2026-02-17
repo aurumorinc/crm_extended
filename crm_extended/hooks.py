@@ -138,7 +138,8 @@ doc_events = {
 	"CRM Lead": {
 		"on_update": [
 			"crm_extended.crm_extended.doctype.google_mail.google_mail.fetch_emails_for_lead",
-			"crm_extended.crm_extended.doctype.sequence_contact.sequence_contact.update_apollo_ref_code"
+			"crm_extended.crm_extended.doctype.sequence_contact.sequence_contact.update_apollo_ref_code",
+			"crm_extended.crm_extended.doctype.sequence_email.sequence_email.update_apollo_ref_code"
 		]
 	}
 }
