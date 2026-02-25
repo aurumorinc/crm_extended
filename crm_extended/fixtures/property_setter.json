@@ -1,17 +1,6 @@
 [
  {
   "doctype_or_field": "DocField",
-  "doc_type": "Notification",
-  "field_name": "channel",
-  "property": "options",
-  "property_type": "Select",
-  "value": "Email\nSlack\nSystem Notification\nSMS\nntfy",
-  "module": "CRM Extended",
-  "name": "Notification-channel-options",
-  "doctype": "Property Setter"
- },
- {
-  "doctype_or_field": "DocField",
   "doc_type": "CRM Lead",
   "field_name": "organization",
   "property": "fieldtype",
@@ -48,52 +37,6 @@
   "value": "0",
   "module": "CRM Extended",
   "name": "Google Calendar-google_calendar_id-read_only",
-  "doctype": "Property Setter"
- },
- {
-  "doctype_or_field": "DocField",
-  "field_name": "subject",
-  "property": "depends_on",
-  "property_type": "Data",
-  "row_name": null,
-  "value": "eval: in_list(['Email', 'Slack', 'System Notification', 'ntfy'], doc.channel)",
-  "module": "CRM Extended",
-  "name": "Notification-subject-depends_on",
-  "doc_type": "Notification",
-  "doctype": "Property Setter"
- },
- {
-  "doctype_or_field": "DocField",
-  "field_name": "subject",
-  "property": "mandatory_depends_on",
-  "property_type": "Data",
-  "row_name": null,
-  "value": "eval: in_list(['Email', 'Slack', 'System Notification', 'ntfy'], doc.channel)",
-  "module": "CRM Extended",
-  "name": "Notification-subject-mandatory_depends_on",
-  "doc_type": "Notification",
-  "doctype": "Property Setter"
- },
- {
-  "doctype_or_field": "DocField",
-  "doc_type": "Notification",
-  "field_name": "column_break_5",
-  "property": "depends_on",
-  "property_type": "Data",
-  "value": "eval:doc.channel !=\"Slack\" && doc.channel !=\"ntfy\"",
-  "module": "CRM Extended",
-  "name": "Notification-column_break_5-depends_on",
-  "doctype": "Property Setter"
- },
- {
-  "doctype_or_field": "DocField",
-  "doc_type": "Notification",
-  "field_name": "recipients",
-  "property": "mandatory_depends_on",
-  "property_type": "Data",
-  "value": "eval:doc.channel!=='Slack' && doc.channel!=='ntfy' && !doc.send_to_all_assignees",
-  "module": "CRM Extended",
-  "name": "Notification-recipients-mandatory_depends_on",
   "doctype": "Property Setter"
  }
 ]
