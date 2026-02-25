@@ -79,7 +79,6 @@ doctype_js = {"CRM Lead": "public/js/crm_lead.js"}
 # add methods and filters to jinja environment
 jinja = {
 	"methods": [
-		"crm_extended.crm_extended.utils.jinja.get_sequence_message",
 		"crm_extended.crm_extended.utils.jinja.get_lead_link"
 	]
 }
@@ -135,25 +134,11 @@ jinja = {
 # Hook on document methods and events
 
 doc_events = {
-	"CRM Lead": {
-		"after_insert": [
-			"crm_extended.crm_extended.doctype.google_mail.google_mail.fetch_emails_for_lead"
-		],
-		"on_update": [
-			"crm_extended.crm_extended.doctype.sequence_contact.sequence_contact.update_apollo_ref_code",
-			"crm_extended.crm_extended.doctype.sequence_email.sequence_email.update_apollo_ref_code"
-		]
-	},
-	"Sequence": {
-		"on_update": [
-			"crm_extended.crm_extended.doctype.sequence_contact.sequence_contact.update_sequence_apollo_ref_code"
-		]
-	},
-	"Sequence Contact": {
-		"on_update": [
-			"crm_extended.crm_extended.doctype.sequence_email.sequence_email.update_sequence_apollo_ref_code"
-		]
-	}
+# 	"CRM Lead": {
+# 		"after_insert": [
+# 			"crm_extended.crm_extended.doctype.google_mail.google_mail.fetch_emails_for_lead"
+# 		]
+# 	}
 }
 
 # Scheduled Tasks
@@ -162,8 +147,7 @@ doc_events = {
 scheduler_events = {
 	"cron": {
 		"* * * * *": [
-			"crm_extended.crm_extended.integrations.utils.process_all_webhooks",
-			"crm_extended.crm_extended.doctype.google_mail.google_mail.sync"
+			"crm_extended.crm_extended.integrations.utils.process_all_webhooks"
 		]
 	}
 }

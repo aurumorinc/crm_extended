@@ -24,9 +24,7 @@ def process_all_webhooks():
     for webhook_data in webhooks:
         process_webhook_queue(webhook_data.name)
 
-def authorize_google_access(google_mail_name=None, code=None, **kwargs):
-	from crm_extended.crm_extended.doctype.google_mail.google_mail import google_callback
-	google_callback(code=code, google_mail_name=google_mail_name)
+
 
 def process_webhook_queue(webhook_name):
     """

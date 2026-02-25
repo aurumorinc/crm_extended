@@ -105,26 +105,6 @@
  },
  {
   "dt": "CRM Lead",
-  "fieldname": "apollo_ref_code",
-  "fieldtype": "Data",
-  "insert_after": "integrations_tab",
-  "label": "Apollo Ref Code",
-  "module": "CRM Extended",
-  "name": "CRM Lead-apollo_ref_code",
-  "doctype": "Custom Field"
- },
- {
-  "dt": "CRM Lead",
-  "fieldname": "teable_ref_code",
-  "fieldtype": "Data",
-  "insert_after": "apollo_ref_code",
-  "label": "Teable Ref Code",
-  "module": "CRM Extended",
-  "name": "CRM Lead-teable_ref_code",
-  "doctype": "Custom Field"
- },
- {
-  "dt": "CRM Lead",
   "fieldname": "lead_links",
   "fieldtype": "Table",
   "insert_after": "teable_ref_code",
@@ -256,26 +236,6 @@
  },
  {
   "dt": "CRM Organization",
-  "fieldname": "apollo_ref_code",
-  "fieldtype": "Data",
-  "insert_after": "integrations_tab",
-  "label": "Apollo Ref Code",
-  "module": "CRM Extended",
-  "name": "CRM Organization-apollo_ref_code",
-  "doctype": "Custom Field"
- },
- {
-  "dt": "CRM Organization",
-  "fieldname": "teable_ref_code",
-  "fieldtype": "Data",
-  "insert_after": "apollo_ref_code",
-  "label": "Teable Ref Code",
-  "module": "CRM Extended",
-  "name": "CRM Organization-teable_ref_code",
-  "doctype": "Custom Field"
- },
- {
-  "dt": "CRM Organization",
   "fieldname": "status",
   "fieldtype": "Link",
   "insert_after": "organization_name",
@@ -400,6 +360,26 @@
   "translatable": 0,
   "unique": 0,
   "dt": "Webhook",
+  "doctype": "Custom Field"
+ },
+ {
+  "dt": "CRM Lead",
+  "fieldname": "teable_ref_code",
+  "fieldtype": "Data",
+  "insert_after": "apollo_ref_code",
+  "label": "Teable Ref Code",
+  "module": "CRM Extended",
+  "name": "CRM Lead-teable_ref_code",
+  "doctype": "Custom Field"
+ },
+ {
+  "dt": "CRM Organization",
+  "fieldname": "teable_ref_code",
+  "fieldtype": "Data",
+  "insert_after": "apollo_ref_code",
+  "label": "Teable Ref Code",
+  "module": "CRM Extended",
+  "name": "CRM Organization-teable_ref_code",
   "doctype": "Custom Field"
  }
 ]
